@@ -49,6 +49,9 @@ EXTERN MonHoc dsMon[MAX_MON_HOC] INIT({0});
 EXTERN int soMon INIT(0);
 /* soMon = số phần tử đang dùng (gồm cả daXoa=1) */
 
+EXTERN GiaoVien dsGiaoVien[MAX_GIAO_VIEN] INIT({0});
+EXTERN int soGiaoVien INIT(0);
+/* soGiaoVien = số phần tử đang dùng (gồm cả daXoa=
 /* =============================================================
  * C. GỐC CÂY BST CÂU HỎI
  *    Toàn bộ câu hỏi của mọi môn chung 1 BST, phân biệt qua mamh.
