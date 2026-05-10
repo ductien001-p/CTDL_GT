@@ -131,6 +131,11 @@ int taiDsLop(const char *duongDanLop);
  *   Mỗi record ghi kèm malop để liên kết khi load lại.
  *   Không ghi dsDiem (lưu riêng).
  */
+
+int luuDsGiaoVien(const char *duongDan);
+
+int taiDsGiaoVien(const char *duongDan);
+
 int luuDsSinhVien(const char *duongDan);
 
 /**

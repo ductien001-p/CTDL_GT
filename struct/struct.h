@@ -7,6 +7,7 @@
 #define MAX_MON_HOC 300     /* Tối đa môn học trong DS tuyến tính */
 #define MAX_LOP 10000       /* Tối đa lớp trong mảng con trỏ      */
 #define MAX_CAU_HOI_THI 200 /* Tối đa câu hỏi 1 lần thi           */
+#define MAX_GIAO_VIEN 100   /* Tối đa giảng viên (tài khoản GV)   */
 
 /* Độ dài chuỗi      */
 #define LEN_MAMH 16
@@ -37,6 +38,12 @@ typedef struct
     int soTinChi;          /* Số tín chỉ (tuỳ chọn, dễ mở rộng) */
     int daXoa;             /* Flag xoá mềm: 0 = còn, 1 = đã xoá */
 } MonHoc;
+
+typedef struct
+{
+    char username[LEN_MASV]; /* Tài khoản đăng nhập (mã SV hoặc "GV") */
+    char password[LEN_PASS]; /* Mật khẩu (nên hash thực tế)           */
+} GiaoVien;
 
 /* 3. KẾT QUẢ BÀI THI  —  DSLK đơn (1 node = 1 câu đã thi)*/
 typedef struct KetQuaBaiThi
