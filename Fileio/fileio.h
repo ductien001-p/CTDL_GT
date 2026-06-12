@@ -1,42 +1,9 @@
-/* =============================================================
- * fileio.h  —  Prototype đọc / ghi file nhị phân
- *              Hệ thống Thi Trắc Nghiệm
- * =============================================================
- *
- * CHIẾN LƯỢC LƯU FILE:
- *   Vấn đề cốt lõi: con trỏ (pointer) trong RAM không có ý nghĩa
- *   khi ghi ra file và đọc lại ở lần chạy sau (địa chỉ thay đổi).
- *
- *   Giải pháp áp dụng cho từng DS:
- *   ┌────────────────┬───────────────────────────────────────────┐
- *   │ DS             │ Chiến lược                                │
- *   ├────────────────┼───────────────────────────────────────────┤
- *   │ MonHoc         │ fwrite/fread mảng thẳng (không pointer)   │
- *   │ Lop            │ Ghi metadata lớp, đếm số SV              │
- *   │ SinhVien       │ Ghi dữ liệu SV (không ghi ptr dsDiem)     │
- *   │ DiemThi        │ Ghi sau SV, liên kết bằng MASV            │
- *   │ KetQuaBaiThi   │ Ghi sau DiemThi, liên kết bằng MASV+MAMH  │
- *   │ BST CauHoi     │ Duyệt inorder → file, đọc lại → insert   │
- *   │ nextId         │ 1 số nguyên đơn giản                      │
- *   └────────────────┴───────────────────────────────────────────┘
- *
- * ĐỊNH DẠNG FILE NHỊ PHÂN:
- *   Mỗi file bắt đầu bằng FILE_HEADER để kiểm tra tính hợp lệ.
- *   Sau đó là dữ liệu theo từng record.
- *
- * TRẢ VỀ:
- *   Các hàm lưu/tải trả về:
- *     FILE_OK      (0)  — thành công
- *     FILE_ERR_OPEN(-1) — không mở được file
- *     FILE_ERR_DATA(-2) — dữ liệu bị hỏng / sai header
- *     FILE_ERR_MEM (-3) — không cấp phát được bộ nhớ
- * ============================================================= */
 
 #ifndef FILEIO_H
 #define FILEIO_H
 
-#include "struct.h"
-#include "global.h"
+#include "struct/struct.h"
+#include "struct/global.h"
 #include <stdio.h>
 
 /* -------------------------------------------------------------
@@ -47,26 +14,7 @@
 #define FILE_ERR_DATA (-2)
 #define FILE_ERR_MEM (-3)
 
-/* -------------------------------------------------------------
- * MAGIC NUMBER kiểm tra header file
- * Thay đổi khi cấu trúc dữ liệu thay đổi (version mới)
- * ------------------------------------------------------------- */
-#define FILE_MAGIC_MON 0x4D4F4E01u    /* 'MON\x01' */
-#define FILE_MAGIC_LOP 0x4C4F5001u    /* 'LOP\x01' */
-#define FILE_MAGIC_SV 0x53563001u     /* 'SV0\x01' */
-#define FILE_MAGIC_DIEM 0x44494501u   /* 'DIE\x01' */
-#define FILE_MAGIC_KQBT 0x4B51425401u /* 'KQBT\x01'*/
-#define FILE_MAGIC_BST 0x42535401u    /* 'BST\x01' */
-#define FILE_MAGIC_ID 0x49443001u     /* 'ID0\x01' */
 
-/* Header chung đầu mỗi file */
-typedef struct
-{
-    unsigned int magic; /* Magic number xác định loại file     */
-    int version;        /* Phiên bản cấu trúc (hiện tại = 1)  */
-    int soRecord;       /* Số record đã ghi vào file           */
-    long checksum;      /* Tổng kiểm tra đơn giản              */
-} FileHeader;
 
 /* =============================================================
  * NHÓM 1: MÔN HỌC
@@ -135,6 +83,12 @@ int taiDsLop(const char *duongDanLop);
 int luuDsGiaoVien(const char *duongDan);
 
 int taiDsGiaoVien(const char *duongDan);
+
+/** Đọc file text: mỗi dòng `username password`; dòng bắt đầu '#' hoặc rỗng bỏ qua */
+int docDsGiaoVienTuTxt(const char *duongDan);
+
+/** Ghi toàn bộ dsGiaoVien[] ra file text */
+int luuDsGiaoVienRaTxt(const char *duongDan);
 
 int luuDsSinhVien(const char *duongDan);
 

@@ -1,9 +1,35 @@
 
 #include "auth.h"
-#include <iostream>
+#include "struct/global.h"
+#include <cstdio>
 #include <cstring>
-#include "global.h"
+#include <ctime> /* std::strftime, std::localtime */
+#include <iostream>
+
 using namespace std;
+
+static void ghiNhatKyDangNhapVaFile(const char *tenHienThi,
+                                    bool laGiangVien)
+{
+    FILE *f = fopen(FILE_NHATKY_DANGNHAP, "a");
+    if (!f)
+        return;
+
+    time_t t = time(nullptr);
+    struct tm *local = std::localtime(&t);
+    char thoiDiem[64];
+
+    if (local)
+        std::strftime(thoiDiem, sizeof(thoiDiem), "%Y-%m-%d %H:%M:%S", local);
+    else
+        thoiDiem[0] = '\0';
+
+    fprintf(f, "[%s] %s: %s\n", thoiDiem, laGiangVien ? "GIANG_VIEN"
+                                                   : "SINH_VIEN",
+            tenHienThi ? tenHienThi : "?");
+
+    fclose(f);
+}
 
 void themTaiKhoanGV(const char *username,
                     const char *password)
@@ -48,6 +74,9 @@ bool dangNhap(const char *username,
 
             cout << "Dang nhap giang vien thanh cong\n";
 
+            ghiNhatKyDangNhapVaFile(username,
+                                    true);
+
             return true;
         }
     }
@@ -68,6 +97,9 @@ bool dangNhap(const char *username,
             svDangNhap = sv;
 
             cout << "Dang nhap sinh vien thanh cong\n";
+
+            ghiNhatKyDangNhapVaFile(sv->masv,
+                                    false);
 
             return true;
         }

@@ -1,35 +1,80 @@
 #define GLOBALS_IMPL
-#include "global.h"
-/* =============================================================
- * A. DANH SÁCH LỚP  —  mảng con trỏ
- *    Mỗi phần tử là con trỏ tới 1 Lop được cấp phát động.
- *    dsLop[i] = NULL nếu chưa dùng.
- * ============================================================= */
-Lop *dsLop[MAX_LOP] = {NULL};
-int soLop = 0;
-/* =============================================================
- * B. DANH SÁCH MÔN HỌC  —  mảng tuyến tính (giá trị, không pointer)
- *    Dùng field daXoa=1 để xoá mềm, tránh dịch chuyển mảng.
- * ============================================================= */
-MonHoc dsMon[MAX_MON_HOC] = {0};
-int soMon = 0;
+#include "struct/global.h"
+#include <cstring>
+#include <stdio.h>
+#include <string>
+#include <conio.h>
+#include <cctype>
+#include <iostream>
 
-GiaoVien dsGiaoVien[MAX_GIAO_VIEN] = {0};
-int soGiaoVien = 0;
-/* =============================================================
- * C. GỐC CÂY BST CÂU HỎI
- *    Toàn bộ câu hỏi của mọi môn chung 1 BST, phân biệt qua mamh.
- * ============================================================= */
-NodeBST *gocBST = NULL;
-/* =============================================================
- * D. BỘ ĐẾM ID CÂU HỎI  —  tự tăng
- *    Khi load từ file: nextId = max(id đã load) + 1.
- * ============================================================= */
-int nextId = 1;
-/* =============================================================
- * E. PHÂN QUYỀN  —  cờ isAdmin
- *    0 = sinh viên đang đăng nhập
- *    1 = giảng viên (tài khoản GV/GV)
- * ============================================================= */
-int isAdmin = 0;
-SinhVien *svDangNhap = NULL; /* Con trỏ đến SV đang đăng nhập (nếu isAdmin=0) */
+using namespace std;
+
+int timLop(const char *malop)
+{
+    if (!malop)
+        return -1;
+
+    for (int i = 0; i < soLop; i++)
+    {
+        if (!dsLop[i])
+            continue;
+
+        if (strcmp(dsLop[i]->malop, malop) == 0)
+            return i;
+    }
+
+    return -1;
+}
+
+int timMon(const char *mamh)
+{
+    if (!mamh)
+        return -1;
+
+    for (int i = 0; i < soMon; i++)
+    {
+        if (strcmp(dsMon[i].mamh, mamh) == 0)
+            return i;
+    }
+
+    return -1;
+}
+
+SinhVien *timSVTrongLop(const char *malop, const char *masv)
+{
+    if (!malop || !masv)
+        return nullptr;
+
+    int idx = timLop(malop);
+    if (idx < 0)
+        return nullptr;
+
+    SinhVien *p = dsLop[idx]->dsSV;
+
+    while (p)
+    {
+        if (strcmp(p->masv, masv) == 0)
+            return p;
+        p = p->tiep;
+    }
+
+    return nullptr;
+}
+
+SinhVien *timSV(const char *masv)
+{
+    if (!masv)
+        return nullptr;
+
+    for (int i = 0; i < soLop; i++)
+    {
+        if (!dsLop[i])
+            continue;
+
+        SinhVien *hit = timSVTrongLop(dsLop[i]->malop, masv);
+        if (hit)
+            return hit;
+    }
+
+    return nullptr;
+}

@@ -18,9 +18,10 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-#include "struct.h"
+#include "struct/struct.h"
 #include <stdio.h>
-
+#include <string>
+using namespace std;
 /* -------------------------------------------------------------
  * MACRO phân biệt ĐỊNH NGHĨA vs KHAI BÁO
  * ------------------------------------------------------------- */
@@ -45,13 +46,14 @@ EXTERN int soLop INIT(0);
  * B. DANH SÁCH MÔN HỌC  —  mảng tuyến tính (giá trị, không pointer)
  *    Dùng field daXoa=1 để xoá mềm, tránh dịch chuyển mảng.
  * ============================================================= */
-EXTERN MonHoc dsMon[MAX_MON_HOC] INIT({0});
+EXTERN MonHoc dsMon[MAX_MON_HOC] INIT({});
 EXTERN int soMon INIT(0);
 /* soMon = số phần tử đang dùng (gồm cả daXoa=1) */
 
-EXTERN GiaoVien dsGiaoVien[MAX_GIAO_VIEN] INIT({0});
+EXTERN GiaoVien dsGiaoVien[MAX_GIAO_VIEN] INIT({});
 EXTERN int soGiaoVien INIT(0);
-/* soGiaoVien = số phần tử đang dùng (gồm cả daXoa=
+/* soGiaoVien = số phần tử đang dùng (gồm cả bản ghi đã xoá mềm nếu có) */
+
 /* =============================================================
  * C. GỐC CÂY BST CÂU HỎI
  *    Toàn bộ câu hỏi của mọi môn chung 1 BST, phân biệt qua mamh.
@@ -86,15 +88,12 @@ EXTERN SinhVien *svDangNhap INIT(NULL);
 /* Dữ liệu đã thay đổi nhưng chưa lưu file → nhắc người dùng  */
 EXTERN int daCoDuLieuThayDoi INIT(0);
 
-/* =============================================================
- * H. ĐƯỜNG DẪN FILE LƯU TRỮ  (tập trung 1 chỗ dễ thay đổi)
- * ============================================================= */
-EXTERN const char *FILE_LOP INIT("data/lop.bin");
-EXTERN const char *FILE_MON INIT("data/monhoc.bin");
-EXTERN const char *FILE_BST INIT("data/cauhoi.bin");
-EXTERN const char *FILE_SV INIT("data/sinhvien.bin");
-EXTERN const char *FILE_DIEM INIT("data/diem.bin");
-EXTERN const char *FILE_NEXT_ID INIT("data/nextid.bin");
+/* Tài khoản giảng viên dạng text (mỗi dòng: username password) */
+EXTERN const char *FILE_GV_TXT INIT("data/giaovien.txt");
+EXTERN const char *FILE_LOP_TXT INIT("data/lop.txt");
+EXTERN const char *FILE_SV_TXT INIT("data/sinhvien.txt");
+/* Nhật ký đăng nhập thành công (append) */
+EXTERN const char *FILE_NHATKY_DANGNHAP INIT("data/nhatky_dangnhap.txt");
 
 /* =============================================================
  * I. TIỆN ÍCH TRUY TÌM NHANH (helper — khai báo hàm toàn cục)
