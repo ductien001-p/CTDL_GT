@@ -1,135 +1,134 @@
-#include "features/Lop/lop.h"
-#include "struct/global.h"
-#include "Fileio/fileio.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <errno.h>
-#include <stdarg.h>
-#include <time.h>
-#include <math.h>
+#include <iostream>
+#include <cstring>
 
-void themLop(const char *malop, const char *tenlop, int soSV)
+#include "lop.h"
+#include "../../HamHoTro/hamhotro.h"
+
+using namespace std;
+
+void khoiTaoDSLop(
+    DSLop &ds)
 {
-    if (soLop >= MAX_LOP)
-        return;
-    if (soSV < 0 || !malop || !tenlop || malop[0] == '\0' || tenlop[0] == '\0')
-        return;
+    ds.n = 0;
 
-    if (timLop(malop) >= 0)
-        return;
-
-    dsLop[soLop] = (Lop *)malloc(sizeof(Lop));
-    if (dsLop[soLop] == NULL)
-        return;
-
-    strncpy(dsLop[soLop]->malop, malop, LEN_MALOP - 1);
-    dsLop[soLop]->malop[LEN_MALOP - 1] = '\0';
-    strncpy(dsLop[soLop]->tenlop, tenlop, LEN_TENLOP - 1);
-    dsLop[soLop]->tenlop[LEN_TENLOP - 1] = '\0';
-    dsLop[soLop]->soSV = soSV;
-    dsLop[soLop]->dsSV = NULL;
-    soLop++;
+    for (int i = 0; i < MAX_LOP; i++)
+    {
+        ds.ds[i] = nullptr;
+    }
 }
 
-bool themSinhVienVaoLop(const char *malop,
-                        const char *masv,
-                        const char *ho,
-                        const char *ten,
-                        int phai,
-                        const char *password)
+Lop *timLop(
+    DSLop &ds,
+    const char maLop[])
 {
-    if (!malop || !masv || !ho || !ten || !password)
-        return false;
-
-    if (malop[0] == '\0' || masv[0] == '\0' || ho[0] == '\0' || ten[0] == '\0' || password[0] == '\0')
-        return false;
-
-    if (!(phai == PHAI_NAM || phai == PHAI_NU))
-        return false;
-
-    int idx = timLop(malop);
-    if (idx < 0 || !dsLop[idx])
-        return false;
-
-    if (timSV(masv))
-        return false;
-
-    SinhVien *node = (SinhVien *)malloc(sizeof(SinhVien));
-    if (!node)
-        return false;
-
-    strncpy(node->masv, masv, LEN_MASV - 1);
-    node->masv[LEN_MASV - 1] = '\0';
-    strncpy(node->ho, ho, LEN_HO - 1);
-    node->ho[LEN_HO - 1] = '\0';
-    strncpy(node->ten, ten, LEN_TEN - 1);
-    node->ten[LEN_TEN - 1] = '\0';
-    node->phai = phai;
-    strncpy(node->password, password, LEN_PASS - 1);
-    node->password[LEN_PASS - 1] = '\0';
-    node->dsDiem = NULL;
-    node->tiep = NULL;
-
-    if (!dsLop[idx]->dsSV)
+    for (int i = 0; i < ds.n; i++)
     {
-        dsLop[idx]->dsSV = node;
-    }
-    else
-    {
-        SinhVien *p = dsLop[idx]->dsSV;
-        while (p->tiep)
-            p = p->tiep;
-        p->tiep = node;
+        if (ds.ds[i] == nullptr)
+            continue;
+
+        if (soSanhChuoi(ds.ds[i]->malop, maLop))
+            return ds.ds[i];
     }
 
-    dsLop[idx]->soSV++;
+    return nullptr;
+}
+bool themLop(
+    DSLop &ds,
+    const char maLop[],
+    const char tenLop[])
+{
+    if (ds.n >= MAX_LOP)
+        return false;
+
+    if (timLop(ds, maLop) != nullptr)
+        return false;
+
+    Lop *lop = new Lop;
+
+    saoChepChuoi(lop->malop, maLop);
+    saoChepChuoi(lop->tenlop, tenLop);
+
+    lop->soSV = 0;
+    lop->dsSV = nullptr;
+
+    ds.ds[ds.n] = lop;
+    ds.n++;
+
     return true;
 }
-
-void Indanhsachlop()
+bool xoaLop(
+    DSLop &ds,
+    const char maLop[])
 {
-    printf("Danh sach lop:\n");
-    for (int i = 0; i < soLop; i++)
+    int viTri = -1;
+
+    for (int i = 0; i < ds.n; i++)
     {
-        if (dsLop[i] == NULL)
-            continue;
-        printf("Lop %d: %s %s %d\n", i, dsLop[i]->malop, dsLop[i]->tenlop, dsLop[i]->soSV);
+        if (soSanhChuoi(ds.ds[i]->malop, maLop) == 0)
+        {
+            viTri = i;
+            break;
+        }
+    }
+
+    if (viTri == -1)
+        return false;
+
+    giaiPhongDSSV(ds.ds[viTri]->dsSV);
+
+    delete ds.ds[viTri];
+
+    for (int i = viTri; i < ds.n - 1; i++)
+    {
+        ds.ds[i] = ds.ds[i + 1];
+    }
+
+    ds.ds[ds.n - 1] = nullptr;
+
+    ds.n--;
+
+    return true;
+}
+void inDSLop(
+    const DSLop &ds)
+{
+    if (ds.n == 0)
+    {
+        cout << "Danh sach lop rong!\n";
+        return;
+    }
+
+    cout << "\n===== DANH SACH LOP =====\n";
+
+    cout << "So lop: " << ds.n << "\n\n";
+
+    for (int i = 0; i < ds.n; i++)
+    {
+        cout << "Ma lop  : "
+             << ds.ds[i]->malop
+             << "\n";
+
+        cout << "Ten lop : "
+             << ds.ds[i]->tenlop
+             << "\n";
+
+        cout << "So SV   : "
+             << ds.ds[i]->soSV
+             << "\n";
+
+        cout << "-------------------------\n";
     }
 }
 
-void InDanhSachSinhVienTrongLop(const char *malop)
+// Ham ho tro giai phong danh sach sinh vien khi xoa lop
+void giaiPhongDSSV(
+    SinhVien *head)
 {
-    int idx = timLop(malop);
-    if (idx < 0 || !dsLop[idx])
+    while (head)
     {
-        printf("Khong tim thay lop co ma %s\n", malop ? malop : "(null)");
-        return;
-    }
+        SinhVien *temp = head;
+        head = head->tiep;
 
-    printf("Danh sach sinh vien lop %s - %s:\n", dsLop[idx]->malop, dsLop[idx]->tenlop);
-
-    SinhVien *p = dsLop[idx]->dsSV;
-    if (!p)
-    {
-        printf("(Lop chua co sinh vien)\n");
-        return;
-    }
-
-    int stt = 1;
-    while (p)
-    {
-        printf("%d. %s | %s %s | %s\n",
-               stt,
-               p->masv,
-               p->ho,
-               p->ten,
-               (p->phai == PHAI_NAM ? "Nam" : "Nu"));
-        stt++;
-        p = p->tiep;
+        delete temp;
     }
 }

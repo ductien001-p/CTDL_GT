@@ -1,4 +1,0 @@
-# dong: tai_khoan mat_khau
-# comment bat dau bang # 
-GV admin
-NguyeHongSon admin1
