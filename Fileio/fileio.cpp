@@ -72,17 +72,19 @@ void loadLop(DSLop &ds)
 
     ds.n = 0;
 
-    while (!in.eof())
+    while (true)
     {
         Lop *l = new Lop;
 
-        in.getline(l->malop, LEN_MALOP, '|');
-        if (in.eof())
+        if (!in.getline(l->malop, LEN_MALOP, '|'))
+        {
+            delete l;
             break;
+        }
 
         in.getline(l->tenlop, LEN_TENLOP, '|');
         in >> l->soSV;
-        in.ignore();
+        in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
         l->dsSV = nullptr;
 
@@ -310,7 +312,7 @@ void loadDatabase(AppContext &app)
 {
     cout << "Loading database...\n";
     loadLop(app.db.dsLop);
-    cout << "Loading mon hoc...\n";
+    cout << "Loading mon lop thanh cong...\n";
     loadMonHoc(app.db.dsMH);
 
     loadSinhVien(app.db.dsLop);

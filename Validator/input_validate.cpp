@@ -25,26 +25,29 @@ bool laChu(char c)
     return laChuThuong(c) || laChuHoa(c);
 }
 
-bool laChuSo(char c)
+bool laChuHoaVaSo(char c)
 {
-    return laChu(c) || laSo(c);
+    return laChuHoa(c) || laSo(c);
 }
 
 bool hopLe(char c, InputType type)
 {
     switch (type)
     {
-    case NUMBER:
+    case SO:
         return laSo(c);
 
-    case LETTER:
-        return laChu(c);
+    case CHUTHUONG:
+        return laChuThuong(c);
 
-    case ALPHANUMERIC:
-        return laChuSo(c);
+    case MASINHVIEN:
+        return laChuHoaVaSo(c);
 
-    case NAME:
+    case HOTEN:
         return laChu(c) || c == ' ';
+
+    case MATKHAU:
+        return c != ' ';
 
     default:
         return false;

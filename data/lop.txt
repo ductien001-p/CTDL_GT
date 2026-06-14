@@ -1,4 +1,0 @@
-# dong: ma_lop ten_lop so_sinh_vien
-# comment bat dau bang # 
-CTK44 CNTT44 0
-D24CQCN02_N CNTT2 1

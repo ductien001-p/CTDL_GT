@@ -1,7 +1,8 @@
 enum InputType
 {
-    NUMBER,       // Chỉ số
-    LETTER,       // Chỉ chữ
-    ALPHANUMERIC, // Chữ + số
-    NAME          // Họ tên (cho phép khoảng trắng)
+    SO,       // Chỉ số
+    CHUTHUONG,       // Chỉ chữ
+    MASINHVIEN // Chữ thường + số
+    HOTEN  // Họ tên (cho phép khoảng trắng)
+    MATKHAU // Trừ khoảng trắng
 };
