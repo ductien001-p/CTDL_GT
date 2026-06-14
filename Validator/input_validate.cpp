@@ -4,21 +4,47 @@
 #include <conio.h>
 #include <iostream>
 using namespace std;
+
+bool laSo(char c)
+{
+    return c >= '0' && c <= '9';
+}
+
+bool laChuThuong(char c)
+{
+    return c >= 'a' && c <= 'z';
+}
+
+bool laChuHoa(char c)
+{
+    return c >= 'A' && c <= 'Z';
+}
+
+bool laChu(char c)
+{
+    return laChuThuong(c) || laChuHoa(c);
+}
+
+bool laChuSo(char c)
+{
+    return laChu(c) || laSo(c);
+}
+
 bool hopLe(char c, InputType type)
 {
     switch (type)
     {
     case NUMBER:
-        return isdigit((unsigned char)c);
+        return laSo(c);
 
     case LETTER:
-        return isalpha((unsigned char)c);
+        return laChu(c);
 
     case ALPHANUMERIC:
-        return isalnum((unsigned char)c);
+        return laChuSo(c);
 
     case NAME:
-        return isalpha((unsigned char)c) || c == ' ';
+        return laChu(c) || c == ' ';
 
     default:
         return false;

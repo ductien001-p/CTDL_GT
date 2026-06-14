@@ -1,8 +1,23 @@
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra -pthread
-INCLUDES = -I. -Istruct -IFileio -Ifeatures/Auth -Ifeatures/Lop -IValidator
+INCLUDES = -I. -Istruct -IFileio -IHamHoTro -IValidator -Iscreen -Ifeatures/DangNhap -Ifeatures/DiemThi -Ifeatures/Lop -Ifeatures/MonHoc -Ifeatures/SinhVien
 
-SRCS = main.cpp struct/global.cpp Fileio/fileio.cpp features/Auth/auth.cpp features/Lop/lop.cpp Validator/input_validate.cpp
+SRCS = main.cpp \
+	Fileio/fileio.cpp \
+	HamHoTro/hamhotro.cpp \
+	Validator/input_validate.cpp \
+	features/DangNhap/dangnhap.cpp \
+	features/DiemThi/diemthi.cpp \
+	features/Lop/lop.cpp \
+	features/MonHoc/monhoc.cpp \
+	features/SinhVien/sinhvien.cpp \
+	features/CauHoi/cauhoi.cpp \
+	screen/function/menuCauhoi.cpp \
+	screen/function/menuGV.cpp \
+	screen/function/menuLop.cpp \
+	screen/function/menuMonhoc.cpp \
+	screen/function/menuSV.cpp \
+	screen/function/menuDangNhap.cpp
 TARGET = quiz_app.exe
 
 all: $(TARGET)
