@@ -4,6 +4,7 @@
 #include "../../struct/app_context.h"
 #include "../SinhVien/sinhvien.h"
 #include "../../HamHoTro/hamhotro.h"
+#include "Validator/input_validate.h"
 
 using namespace std;
 
@@ -17,15 +18,15 @@ bool dangNhap(AppContext &app)
     cout << "====================================\n";
 
     cout << "Tai khoan: ";
-    cin.getline(username, LEN_MASV);
+    username = nhap(LETTER);
 
     cout << "Mat khau : ";
-    cin.getline(password, LEN_PASS);
+    nhap(LETTER,)
 
     // Tai khoan giao vien
 
-    if (soSanhChuoi(username, "GV") == 0 &&
-        soSanhChuoi(password, "GV") == 0)
+    if (soSanhChuoi(username, "GV") &&
+        soSanhChuoi(password, "GV"))
     {
         app.session.username = "GV";
         app.session.giaovien = true;
