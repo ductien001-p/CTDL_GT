@@ -1,4 +1,6 @@
 #include <iostream>
+#include "decoration/decoration.h"
+#include "../struct/app_context.h"
 
 #include "screen/include/MenuDangNhap.h"
 #include "../../features/DangNhap/dangnhap.h"
@@ -8,31 +10,25 @@ using namespace std;
 bool manHinhDangNhap(
     AppContext &app)
 {
-    int chon;
 
     while (true)
     {
         system("cls");
 
-        cout << "\n";
-        cout << "========================================\n";
-        cout << "       HE THONG THI TRAC NGHIEM\n";
-        cout << "========================================\n";
+        const char *ds[] =
+            {
+                "Dang nhap",
+                "Thoat"};
 
-        cout << "\n";
-        cout << "1. Dang nhap\n";
-        cout << "0. Thoat\n";
-
-        cout << "\nLua chon: ";
-        cin >> chon;
-
-        cin.ignore(
-            1000,
-            '\n');
+        int chon =
+            menuConsole(
+                "HE THONG THI TRAC NGHIEM",
+                ds,
+                2);
 
         switch (chon)
         {
-        case 1:
+        case 0:
         {
             if (dangNhap(app))
             {
@@ -52,7 +48,7 @@ bool manHinhDangNhap(
             break;
         }
 
-        case 0:
+        case 1:
         {
             return false;
         }

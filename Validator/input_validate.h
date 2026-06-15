@@ -5,6 +5,6 @@
 #include <string>
 using namespace std;
 
-string nhap(InputType type);
+void nhap(char ketqua[], InputType type);
 
 #endif // INPUT_VALIDATE_H

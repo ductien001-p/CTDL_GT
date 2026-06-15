@@ -19,6 +19,11 @@ DiemThi *timDiemThi(
     SinhVien *sv,
     const char *maMH);
 
+DiemThi *timDiemThiTheoMaSV(
+    DSLop &dsLop,
+    const char *masv,
+    const char *maMH);
+
 // Ham ho tro chen diem thi de load diem thi tu file
 void chenDiemThiVaoCuoiDSLK(
     DiemThi *&head,

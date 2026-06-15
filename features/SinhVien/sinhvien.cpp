@@ -61,7 +61,7 @@ bool themSinhVien(
 
     while (p)
     {
-        if (soSanhChuoi(p->masv, sv->masv) == 0)
+        if (soSanhChuoi(p->masv, sv->masv))
             return false;
 
         p = p->tiep;
