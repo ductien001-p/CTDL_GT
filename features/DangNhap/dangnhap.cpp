@@ -18,10 +18,10 @@ bool dangNhap(AppContext &app)
     cout << "====================================\n";
 
     cout << "Tai khoan: ";
-    username = nhap(LETTER);
+    nhap(username, MASINHVIEN);
 
     cout << "Mat khau : ";
-    nhap(LETTER,)
+    nhap(password, MATKHAU);
 
     // Tai khoan giao vien
 
@@ -30,7 +30,6 @@ bool dangNhap(AppContext &app)
     {
         app.session.username = "GV";
         app.session.giaovien = true;
-
         return true;
     }
 
@@ -44,9 +43,9 @@ bool dangNhap(AppContext &app)
     if (sv == nullptr)
         return false;
 
-    if (soSanhChuoi(
+    if (!soSanhChuoi(
             sv->password,
-            password) != 0)
+            password))
     {
         return false;
     }

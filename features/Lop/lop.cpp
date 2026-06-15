@@ -64,7 +64,7 @@ bool xoaLop(
 
     for (int i = 0; i < ds.n; i++)
     {
-        if (soSanhChuoi(ds.ds[i]->malop, maLop) == 0)
+        if (soSanhChuoi(ds.ds[i]->malop, maLop))
         {
             viTri = i;
             break;

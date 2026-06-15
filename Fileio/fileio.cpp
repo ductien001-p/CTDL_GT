@@ -308,16 +308,180 @@ void loadCauHoi(NodeBST *&root)
 
     in.close();
 }
+
+void loadChiTietBaiThi(
+    DSLop &dsLop)
+{
+    std::ifstream in(
+        "data/chitietthi.txt");
+
+    if (!in)
+        return;
+
+    std::string line;
+
+    while (std::getline(
+        in,
+        line))
+    {
+        if (line.empty())
+            continue;
+
+        std::stringstream ss(
+            line);
+
+        std::string masv;
+        std::string mamh;
+        std::string sid;
+        std::string tl;
+        std::string dungSai;
+
+        std::getline(
+            ss,
+            masv,
+            '|');
+
+        std::getline(
+            ss,
+            mamh,
+            '|');
+
+        std::getline(
+            ss,
+            sid,
+            '|');
+
+        std::getline(
+            ss,
+            tl,
+            '|');
+
+        std::getline(
+            ss,
+            dungSai,
+            '|');
+
+        DiemThi *dt =
+            timDiemThiTheoMaSV(
+                dsLop,
+                masv.c_str(),
+                mamh.c_str());
+
+        if (dt == nullptr)
+            continue;
+
+        KetQuaBaiThi *kq =
+            new KetQuaBaiThi;
+
+        kq->idCauHoi =
+            atoi(
+                sid.c_str());
+
+        kq->tlSinhVien =
+            tl.empty()
+                ? '\0'
+                : tl[0];
+
+        kq->tlDungSai =
+            atoi(
+                dungSai.c_str());
+
+        kq->tiep =
+            nullptr;
+
+        if (dt->dsKetQua ==
+            nullptr)
+        {
+            dt->dsKetQua =
+                kq;
+        }
+        else
+        {
+            KetQuaBaiThi *p =
+                dt->dsKetQua;
+
+            while (p->tiep)
+                p = p->tiep;
+
+            p->tiep = kq;
+        }
+    }
+
+    in.close();
+}
+
+#include <fstream>
+
+void saveChiTietBaiThi(
+    const DSLop &dsLop)
+{
+    std::ofstream out(
+        "data/chitietthi.txt");
+
+    if (!out)
+        return;
+
+    for (int i = 0;
+         i < dsLop.n;
+         i++)
+    {
+        Lop *lop =
+            dsLop.ds[i];
+
+        SinhVien *sv =
+            lop->dsSV;
+
+        while (sv)
+        {
+            DiemThi *dt =
+                sv->dsDiem;
+
+            while (dt)
+            {
+                KetQuaBaiThi *kq =
+                    dt->dsKetQua;
+
+                while (kq)
+                {
+                    out
+                        << sv->masv
+                        << '|'
+                        << dt->mamh
+                        << '|'
+                        << kq->idCauHoi
+                        << '|'
+                        << kq->tlSinhVien
+                        << '|'
+                        << (int)kq->tlDungSai
+                        << '\n';
+
+                    kq =
+                        kq->tiep;
+                }
+
+                dt =
+                    dt->tiep;
+            }
+
+            sv =
+                sv->tiep;
+        }
+    }
+
+    out.close();
+}
+
 void loadDatabase(AppContext &app)
 {
-    cout << "Loading database...\n";
     loadLop(app.db.dsLop);
-    cout << "Loading mon lop thanh cong...\n";
+
     loadMonHoc(app.db.dsMH);
 
     loadSinhVien(app.db.dsLop);
 
     loadDiemThi(app.db.dsLop);
+
+    loadChiTietBaiThi(app.db.dsLop);
 
     loadCauHoi(app.db.rootCH);
 }
@@ -330,6 +494,8 @@ void saveDatabase(const AppContext &app)
     saveSinhVien(app.db.dsLop);
 
     saveDiemThi(app.db.dsLop);
+
+    saveChiTietBaiThi(app.db.dsLop);
 
     saveCauHoi(app.db.rootCH);
 }

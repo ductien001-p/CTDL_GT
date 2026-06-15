@@ -22,6 +22,9 @@ void saveDiemThi(const DSLop &dsLop);
 void loadCauHoi(NodeBST *&root);
 void saveCauHoi(NodeBST *root);
 
+void loadChiTietBaiThi(DSLop &dsLop);
+void saveChiTietBaiThi(const DSLop &dsLop);
+
 void saveNode(NodeBST *root, ofstream &out);
 
 void loadDatabase(AppContext &app);

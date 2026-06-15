@@ -15,6 +15,8 @@ void khoiTaoDSMonHoc(
 MonHoc taoMonHoc(
     const char *maMH,
     const char *tenMH,
+    int soCauHoiThi,
+    int soPhutThi,
     int soTC)
 {
     MonHoc mh;
@@ -28,6 +30,8 @@ MonHoc taoMonHoc(
         tenMH);
 
     mh.soTinChi = soTC;
+    mh.soCauHoiThi = soCauHoiThi;
+    mh.soPhutThi = soPhutThi;
 
     mh.daXoa = 0;
 
@@ -45,7 +49,7 @@ MonHoc *timMonHoc(
 
         if (soSanhChuoi(
                 ds.ds[i].mamh,
-            maMH) == 0)
+                maMH))
         {
             return &ds.ds[i];
         }
@@ -122,7 +126,7 @@ void inDSMonHoc(
         << "\n\n";
 
     cout
-        << "Ma MH\tTen MH\tSo TC\n";
+        << "Ma MH\tTen MH\tSo TC\tSo Cau Hoi\tSo Phut Thi\n";
 
     for (int i = 0; i < ds.n; i++)
     {

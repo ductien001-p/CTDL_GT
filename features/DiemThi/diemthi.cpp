@@ -1,7 +1,8 @@
 #include <iostream>
 #include <cstring>
 #include <ctime>
-
+#include <iomanip>
+#include "../../struct/struct.h"
 #include "diemthi.h"
 #include "../../HamHoTro/hamhotro.h"
 using namespace std;
@@ -49,6 +50,34 @@ DiemThi *timDiemThi(
 
     return nullptr;
 }
+
+DiemThi *timDiemThiTheoMaSV(
+    DSLop &dsLop,
+    const char *masv,
+    const char *maMH)
+{
+    for (int i = 0; i < dsLop.n; i++)
+    {
+        SinhVien *sv =
+            timSinhVien(
+                dsLop,
+                masv);
+
+        if (sv == nullptr)
+            continue;
+
+        DiemThi *dt =
+            timDiemThi(
+                sv,
+                maMH);
+
+        if (dt)
+            return dt;
+    }
+
+    return nullptr;
+}
+
 void themDiemThi(
     SinhVien *sv,
     DiemThi *dt)

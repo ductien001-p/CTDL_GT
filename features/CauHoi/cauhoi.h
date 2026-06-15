@@ -6,28 +6,38 @@ using namespace std;
 
 NodeBST *taoNode(
     const CauHoi &ch);
-bool insertCauHoi(
+bool themCauHoi(
     NodeBST *&root,
     const CauHoi &ch);
-NodeBST *searchCauHoi(
+NodeBST *timkiemCauHoi(
     NodeBST *root,
     int id);
-bool deleteCauHoi(
+bool xoaCauHoi(
     NodeBST *&root,
     int id);
 void LNR(
     NodeBST *root);
 
-void saveLNR(
+void luuLNR(
     NodeBST *root,
     ofstream &out);
-int getMaxID(
+int layIDMax(
     NodeBST *root);
 
 int taoIDMoi(
     NodeBST *root);
+void inCauHoiTheoMon(
+    NodeBST *root,
+    const char *maMH);
+int demCauHoiTheoMon(
+    NodeBST *root,
+    const char *maMH);
 
 void chenCauHoiLoadfile(
     NodeBST *&root,
     const CauHoi &ch);
+// Ham ho tro
+void timNodeTheMang(
+    NodeBST *&x,
+    NodeBST *&y);
 #endif // CAUHOI_H

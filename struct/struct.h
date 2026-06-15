@@ -31,6 +31,8 @@ typedef struct
     char mamh[LEN_MAMH];
     char tenmh[LEN_TENMH];
     int soTinChi;
+    int soCauHoiThi;
+    int soPhutThi;
     int daXoa;
 } MonHoc;
 
@@ -43,6 +45,7 @@ typedef struct
 typedef struct KetQuaBaiThi
 {
     int idCauHoi;
+    char tlSinhVien;
     char tlDungSai;
     struct KetQuaBaiThi *tiep;
 } KetQuaBaiThi;
