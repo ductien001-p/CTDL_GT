@@ -74,6 +74,8 @@ void uiThemSinhVien(
             lop,
             sv))
     {
+        saveSinhVien(app.db.dsLop);
+        saveLop(app.db.dsLop);
         cout
             << "\nThem thanh cong!\n";
     }
@@ -175,6 +177,8 @@ void uiXoaSinhVien(
             lop,
             masv))
     {
+        saveSinhVien(app.db.dsLop);
+        saveLop(app.db.dsLop);
         cout
             << "\nXoa thanh cong!\n";
     }

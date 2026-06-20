@@ -29,6 +29,7 @@ void uiThemLop(
             maLop,
             tenLop))
     {
+        saveLop(app.db.dsLop);
         cout
             << "\nThem thanh cong!\n";
     }
@@ -97,6 +98,8 @@ void uiXoaLop(
             app.db.dsLop,
             maLop))
     {
+        saveLop(app.db.dsLop);
+        saveSinhVien(app.db.dsLop);
         cout
             << "\nXoa thanh cong!\n";
     }

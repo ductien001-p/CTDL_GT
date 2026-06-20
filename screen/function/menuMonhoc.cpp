@@ -34,6 +34,7 @@ void uiThemMonHoc(
             app.db.dsMH,
             mh))
     {
+        saveMonHoc(app.db.dsMH);
         cout
             << "\nThem thanh cong!\n";
     }
@@ -132,6 +133,7 @@ void uiSuaMonHoc(
             maMH,
             moi))
     {
+        saveMonHoc(app.db.dsMH);
         cout
             << "\nCap nhat thanh cong!\n";
     }
@@ -160,6 +162,7 @@ void uiXoaMonHoc(
             app.db.dsMH,
             maMH))
     {
+        saveMonHoc(app.db.dsMH);
         cout
             << "\nXoa thanh cong!\n";
     }

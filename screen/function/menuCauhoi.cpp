@@ -77,6 +77,7 @@ void uiThemCauHoi(
             app.db.rootCH,
             ch))
     {
+        saveCauHoi(app.db.rootCH);
         cout
             << "\nThem thanh cong!\n";
     }
@@ -171,6 +172,7 @@ void uiXoaCauHoi(
             app.db.rootCH,
             id))
     {
+        saveCauHoi(app.db.rootCH);
         cout
             << "\nXoa thanh cong!\n";
     }
