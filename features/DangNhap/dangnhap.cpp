@@ -8,32 +8,20 @@
 
 using namespace std;
 
-bool dangNhap(AppContext &app)
+bool kiemTraDangNhap(
+    AppContext &app,
+    const char *username,
+    const char *password)
 {
-    char username[LEN_MASV];
-    char password[LEN_PASS];
-
-    cout << "\n====================================\n";
-    cout << "      HE THONG THI TRAC NGHIEM\n";
-    cout << "====================================\n";
-
-    cout << "Tai khoan: ";
-    nhap(username, MASINHVIEN);
-
-    cout << "Mat khau : ";
-    nhap(password, MATKHAU);
-
-    // Tai khoan giao vien
-
     if (soSanhChuoi(username, "GV") &&
         soSanhChuoi(password, "GV"))
     {
         app.session.username = "GV";
         app.session.giaovien = true;
+        app.session.svHientai = nullptr;
+
         return true;
     }
-
-    // Tai khoan sinh vien
 
     SinhVien *sv =
         timSinhVien(
@@ -52,11 +40,13 @@ bool dangNhap(AppContext &app)
 
     app.session.username = sv->masv;
     app.session.giaovien = false;
+    app.session.svHientai = sv;
 
     return true;
 }
 
-void dangXuat(AppContext &app)
+void dangXuat(
+    AppContext &app)
 {
     app.session.username = "";
     app.session.giaovien = false;

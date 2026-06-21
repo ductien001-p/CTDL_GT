@@ -26,9 +26,11 @@ int layIDMax(
 
 int taoIDMoi(
     NodeBST *root);
-void inCauHoiTheoMon(
+void hienThiCauHoiTheoMon(
     NodeBST *root,
-    const char *maMH);
+    const char *maMH,
+    int &y,
+    int &dem);
 int demCauHoiTheoMon(
     NodeBST *root,
     const char *maMH);
@@ -36,6 +38,7 @@ int demCauHoiTheoMon(
 void chenCauHoiLoadfile(
     NodeBST *&root,
     const CauHoi &ch);
+
 // Ham ho tro
 void timNodeTheMang(
     NodeBST *&x,

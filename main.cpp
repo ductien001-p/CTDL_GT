@@ -18,7 +18,7 @@ int main()
     while (true)
     {
         bool ok =
-            manHinhDangNhap(app);
+            manHinhBatDau(app);
 
         if (!ok)
             break;

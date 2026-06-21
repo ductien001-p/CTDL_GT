@@ -5,52 +5,57 @@
 #include "screen/include/menuCauHoi.h"
 #include "screen/include/menuBangDiem.h"
 #include "screen/include/MenuDangNhap.h"
-
+#include "decoration/decoration.h"
 #include <cstdlib>
 #include <iostream>
 #include "../struct/app_context.h"
+#include "HamHoTro/hamhotro.h"
+#include "decoration/decoration.h"
 using namespace std;
 //=========================================Menu Giao vien===========================//
 void menuGV(AppContext &app)
 {
-    (void)app;
-    int choice;
-
-    do
-    {
-        system("cls");
-
-        cout << "====================================\n";
-        cout << "          MENU GIAO VIEN\n";
-        cout << "====================================\n";
-        cout << "1. Quan ly lop\n";
-        cout << "2. Quan ly sinh vien\n";
-        cout << "3. Quan ly mon hoc\n";
-        cout << "4. Quan ly cau hoi\n";
-        cout << "5. Bang diem\n";
-        cout << "0. Dang xuat\n";
-        cout << "------------------------------------\n";
-        cout << "Lua chon: ";
-        cin >> choice;
-
-        switch (choice)
+    const char *ds[] =
         {
-        case 1:
+            "Quan ly lop",
+            "Quan ly sinh vien",
+            "Quan ly mon hoc",
+            "Quan ly cau hoi",
+            "Bang diem",
+            "Dang xuat"};
+
+    while (true)
+    {
+        int chon =
+            menuConsole(
+                "MENU GIAO VIEN",
+                ds,
+                6);
+
+        switch (chon)
+        {
+        case 0:
             menuLop(app);
             break;
-        case 2:
+
+        case 1:
             menuQuanLySinhVien(app);
             break;
-        case 3:
+
+        case 2:
             menuMonHoc(app);
             break;
-        case 4:
+
+        case 3:
             menuCauHoi(app);
             break;
-        case 5:
+
+        case 4:
             menuBangDiem(app);
             break;
-        }
 
-    } while (choice != 0);
+        case 5:
+            return;
+        }
+    }
 }

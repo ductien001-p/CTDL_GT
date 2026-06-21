@@ -1,6 +1,10 @@
 #include <cstring>
-
+#include "conio.h"
 #include "hamhotro.h"
+#include <iostream>
+#include <iomanip>
+#include "decoration/decoration.h"
+
 // Ham ho tro
 bool soSanhChuoi(const char *s1, const char *s2)
 {
@@ -29,3 +33,4 @@ void saoChepChuoi(char *dich, const char *nguon)
 
     dich[i] = '\0';
 }
+

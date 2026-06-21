@@ -5,6 +5,9 @@
 #include <cstring>
 #include "../../struct/app_context.h"
 #include "../struct/struct.h"
+#include <iomanip>
+#include <conio.h>
+#include "decoration/decoration.h"
 using namespace std;
 bool themCauHoi(
     NodeBST *&root,
@@ -147,85 +150,132 @@ int taoIDMoi(
     return layIDMax(root) + 1;
 }
 
-void inCauHoiTheoMon(
-    NodeBST* root,
-    const char* maMH)
+void hienThiCauHoiTheoMon(
+    NodeBST *root,
+    const char *maMH,
+    int &y,
+    int &dem)
 {
-    if(root == nullptr)
+
+    if (root == nullptr)
         return;
 
-    inCauHoiTheoMon(
+    hienThiCauHoiTheoMon(
         root->trai,
-        maMH);
+        maMH,
+        y,
+        dem);
 
-    if(strcmp(
-           root->data.mamh,
-           maMH) == 0 &&
-       root->data.daXoa == 0)
+    if (
+        strcmp(
+            root->data.mamh,
+            maMH) == 0 &&
+        root->data.daXoa == 0)
     {
-        cout << "\n=====================\n";
 
-        cout << "ID: "
-             << root->data.id
-             << endl;
+        // neu het khung thi dung lai
 
-        cout << "Mon: "
-             << root->data.mamh
-             << endl;
+        if (y >= 22)
+        {
+            gotoXY(5, 24);
 
-        cout << "Noi dung:\n"
-             << root->data.noidung
-             << endl;
+            cout
+                << "Nhan phim bat ky de xem tiep...";
 
-        cout << "A. "
-             << root->data.A
-             << endl;
+            _getch();
 
-        cout << "B. "
-             << root->data.B
-             << endl;
+            clearScreen();
 
-        cout << "C. "
-             << root->data.C
-             << endl;
+            veKhungManHinh(
+                2,
+                1,
+                120,
+                28,
+                "DANH SACH CAU HOI");
 
-        cout << "D. "
-             << root->data.D
-             << endl;
+            y = 5;
+        }
 
-        cout << "Dap an: "
-             << root->data.dapan
-             << endl;
+        CauHoi &ch =
+            root->data;
+
+        gotoXY(5, y++);
+
+        cout
+            << "ID: "
+            << ch.id
+            << "   Mon: "
+            << ch.mamh;
+
+        gotoXY(5, y++);
+
+        cout
+            << "Cau hoi: "
+            << ch.noidung;
+
+        gotoXY(8, y++);
+
+        cout
+            << "A. "
+            << ch.A;
+
+        gotoXY(8, y++);
+
+        cout
+            << "B. "
+            << ch.B;
+
+        gotoXY(8, y++);
+
+        cout
+            << "C. "
+            << ch.C;
+
+        gotoXY(8, y++);
+
+        cout
+            << "D. "
+            << ch.D;
+
+        gotoXY(8, y++);
+
+        setColor(10);
+
+        cout
+            << "Dap an dung: "
+            << ch.dapan;
+
+        setColor(7);
+
+        y += 1;
+
+        dem++;
     }
 
-    inCauHoiTheoMon(
+    hienThiCauHoiTheoMon(
         root->phai,
-        maMH);
+        maMH,
+        y,
+        dem);
 }
 int demCauHoiTheoMon(
-    NodeBST* root,
-    const char* maMH)
+    NodeBST *root,
+    const char *maMH)
 {
-    if(root == nullptr)
+    if (root == nullptr)
         return 0;
 
     int dem = 0;
 
-    if(strcmp(
-           root->data.mamh,
-           maMH) == 0 &&
-       root->data.daXoa == 0)
+    if (strcmp(
+            root->data.mamh,
+            maMH) == 0 &&
+        root->data.daXoa == 0)
     {
         dem = 1;
     }
 
-    return dem
-        + demCauHoiTheoMon(
-              root->trai,
-              maMH)
-        + demCauHoiTheoMon(
-              root->phai,
-              maMH);
+    return dem + demCauHoiTheoMon(root->trai, maMH) + demCauHoiTheoMon(root->phai, maMH);
 }
 
 // Ham ho tro

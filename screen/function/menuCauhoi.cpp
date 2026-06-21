@@ -1,106 +1,191 @@
 #include "screen/include/menuCauhoi.h"
+
 #include "features/CauHoi/cauhoi.h"
-#include "features/Lop/lop.h"
 #include "features/Thi/thi.h"
 #include "features/MonHoc/monhoc.h"
-#include "screen/include/MenuDangNhap.h"
-#include <cstdlib>
-#include <iostream>
+
+#include "HamHoTro/hamhotro.h"
+#include "decoration/decoration.h"
+
 #include "../struct/app_context.h"
-#include "screen/include/MenuDangNhap.h"
+#include <conio.h>
+#include <vector>
+#include <iostream>
+#include <iomanip>
+#include <vector>
+#include <conio.h>
+#include "struct/struct.h"
+#include <cstring>
+
 using namespace std;
+
+//================================================
+// THEM CAU HOI
+//================================================
 
 void uiThemCauHoi(
     AppContext &app)
 {
+
+    clearScreen();
+
+    veKhungManHinh(
+        3,
+        1,
+        115,
+        22,
+        "THEM CAU HOI");
+
     CauHoi ch;
 
     ch.id =
         taoIDMoi(
             app.db.rootCH);
 
-    cout
-        << "\nID moi: "
-        << ch.id
-        << "\n";
+    gotoXY(8, 5);
 
-    cout
-        << "Ma mon hoc: ";
+    cout << "ID moi : "
+         << ch.id;
+
+    gotoXY(8, 7);
+    cout << "Ma mon hoc : ";
+
+    gotoXY(25, 7);
 
     cin.getline(
         ch.mamh,
         LEN_MAMH);
 
-    cout
-        << "Noi dung: ";
+    gotoXY(8, 9);
+    cout << "Noi dung : ";
+
+    gotoXY(25, 9);
 
     cin.getline(
         ch.noidung,
         LEN_NOIDUNG);
 
-    cout << "A: ";
+    gotoXY(8, 11);
+    cout << "A : ";
+
+    gotoXY(25, 11);
+
     cin.getline(
         ch.A,
         LEN_LUACHON);
 
-    cout << "B: ";
+    gotoXY(8, 13);
+    cout << "B : ";
+
+    gotoXY(25, 13);
+
     cin.getline(
         ch.B,
         LEN_LUACHON);
 
-    cout << "C: ";
+    gotoXY(8, 15);
+    cout << "C : ";
+
+    gotoXY(25, 15);
+
     cin.getline(
         ch.C,
         LEN_LUACHON);
 
-    cout << "D: ";
+    gotoXY(8, 17);
+    cout << "D : ";
+
+    gotoXY(25, 17);
+
     cin.getline(
         ch.D,
         LEN_LUACHON);
 
-    cout
-        << "Dap an dung (A/B/C/D): ";
+    gotoXY(8, 19);
+
+    cout << "Dap an dung : ";
+
+    gotoXY(25, 19);
 
     cin >> ch.dapan;
 
-    cin.ignore();
+    cin.ignore(
+        1000,
+        '\n');
 
-    if (ch.dapan >= 'a' &&
-        ch.dapan <= 'z')
+    if (ch.dapan >= 'a' && ch.dapan <= 'z')
     {
         ch.dapan -= 32;
     }
 
     ch.daXoa = 0;
 
-    if (themCauHoi(
+    bool kq =
+        themCauHoi(
             app.db.rootCH,
-            ch))
+            ch);
+
+    veKhungThongBao(
+        20,
+        23,
+        70,
+        4);
+
+    if (kq)
     {
-        saveCauHoi(app.db.rootCH);
-        cout
-            << "\nThem thanh cong!\n";
+
+        saveCauHoi(
+            app.db.rootCH);
+
+        hienThongBao(
+            20,
+            23,
+            "Them cau hoi thanh cong!",
+            true);
     }
     else
     {
-        cout
-            << "\nThem that bai!\n";
+
+        hienThongBao(
+            20,
+            23,
+            "Them cau hoi that bai!",
+            false);
     }
 
-    system("pause");
+    choNhanPhim(
+        20,
+        25);
 }
+
+//================================================
+// TIM CAU HOI
+//================================================
 
 void uiTimCauHoi(
     AppContext &app)
 {
+
+    clearScreen();
+
+    veKhungManHinh(
+        15,
+        3,
+        80,
+        10,
+        "TIM CAU HOI");
+
     int id;
 
-    cout
-        << "\nNhap ID: ";
+    gotoXY(20, 7);
+
+    cout << "Nhap ID : ";
 
     cin >> id;
 
-    cin.ignore();
+    cin.ignore(
+        1000,
+        '\n');
 
     NodeBST *node =
         timkiemCauHoi(
@@ -110,190 +195,424 @@ void uiTimCauHoi(
     if (node == nullptr ||
         node->data.daXoa)
     {
-        cout
-            << "\nKhong tim thay!\n";
 
-        system("pause");
+        veKhungThongBao(
+            15,
+            15,
+            80,
+            4);
+
+        hienThongBao(
+            15,
+            15,
+            "Khong tim thay cau hoi!",
+            false);
+
+        choNhanPhim(
+            15,
+            17);
+
         return;
     }
 
     CauHoi &ch =
         node->data;
 
-    cout
-        << "\nID      : "
-        << ch.id;
+    clearScreen();
 
-    cout
-        << "\nMon hoc : "
-        << ch.mamh;
+    veKhungManHinh(
+        2,
+        1,
+        120,
+        24,
+        "THONG TIN CAU HOI");
 
-    cout
-        << "\nNoi dung: "
-        << ch.noidung;
+    gotoXY(5, 5);
+    cout << "ID      : " << ch.id;
 
-    cout
-        << "\nA. "
-        << ch.A;
+    gotoXY(5, 7);
+    cout << "Mon hoc : " << ch.mamh;
 
-    cout
-        << "\nB. "
-        << ch.B;
+    gotoXY(5, 9);
+    cout << "Noi dung: " << ch.noidung;
 
-    cout
-        << "\nC. "
-        << ch.C;
+    gotoXY(5, 12);
+    cout << "A. " << ch.A;
 
-    cout
-        << "\nD. "
-        << ch.D;
+    gotoXY(5, 14);
+    cout << "B. " << ch.B;
 
-    cout
-        << "\nDap an : "
-        << ch.dapan
-        << "\n";
+    gotoXY(5, 16);
+    cout << "C. " << ch.C;
 
-    system("pause");
+    gotoXY(5, 18);
+    cout << "D. " << ch.D;
+
+    gotoXY(5, 21);
+
+    cout << "Dap an dung : "
+         << ch.dapan;
+
+    choNhanPhim(
+        5,
+        23);
 }
+
+//================================================
+// XOA CAU HOI
+//================================================
 
 void uiXoaCauHoi(
     AppContext &app)
 {
+
+    clearScreen();
+
+    veKhungManHinh(
+        15,
+        3,
+        80,
+        10,
+        "XOA CAU HOI");
+
     int id;
 
-    cout
-        << "\nNhap ID can xoa: ";
+    gotoXY(20, 7);
+
+    cout << "Nhap ID : ";
 
     cin >> id;
 
-    cin.ignore();
+    cin.ignore(
+        1000,
+        '\n');
 
-    if (xoaCauHoi(
+    bool kq =
+        xoaCauHoi(
             app.db.rootCH,
-            id))
+            id);
+
+    veKhungThongBao(
+        15,
+        15,
+        80,
+        4);
+
+    if (kq)
     {
-        saveCauHoi(app.db.rootCH);
-        cout
-            << "\nXoa thanh cong!\n";
+
+        saveCauHoi(
+            app.db.rootCH);
+
+        hienThongBao(
+            15,
+            15,
+            "Xoa thanh cong!",
+            true);
     }
     else
     {
-        cout
-            << "\nKhong tim thay!\n";
+        hienThongBao(
+            15,
+            15,
+            "Khong tim thay!",
+            false);
     }
 
-    system("pause");
+    choNhanPhim(
+        15,
+        17);
 }
+
+//================================================
+// IN THEO MON
+//================================================
+
+void layDSCauHoi(
+    NodeBST *root,
+    const char *maMH,
+    vector<CauHoi *> &ds)
+{
+    if (root == nullptr)
+        return;
+
+    layDSCauHoi(
+        root->trai,
+        maMH,
+        ds);
+
+    if (strcmp(
+            root->data.mamh,
+            maMH) == 0 &&
+        root->data.daXoa == 0)
+    {
+        ds.push_back(
+            &root->data);
+    }
+
+    layDSCauHoi(
+        root->phai,
+        maMH,
+        ds);
+}
+
 void uiInCauHoiTheoMon(
     AppContext &app)
 {
+
+    clearScreen();
+
+    // nhập môn
+
+    veKhungManHinh(
+        15,
+        2,
+        70,
+        8,
+        "IN CAU HOI THEO MON");
+
     char maMH[LEN_MAMH];
 
+    gotoXY(20, 6);
+
     cout
-        << "\nNhap ma MH: ";
+        << "Ma mon hoc : ";
+
+    gotoXY(35, 6);
 
     cin.getline(
         maMH,
         LEN_MAMH);
 
-    cout
-        << "\n===== DANH SACH CAU HOI =====\n";
+    vector<CauHoi *> ds;
 
-    inCauHoiTheoMon(
+    layDSCauHoi(
         app.db.rootCH,
-        maMH);
+        maMH,
+        ds);
 
-    cout << "\n";
+    int trang = 0;
 
-    system("pause");
+    const int soDong = 2;
+
+    while (true)
+    {
+
+        clearScreen();
+
+        veKhungManHinh(
+            2,
+            1,
+            110,
+            22,
+            "DANH SACH CAU HOI");
+
+        gotoXY(5, 4);
+
+        cout
+            << "Mon hoc: "
+            << maMH;
+
+        int start =
+            trang * soDong;
+
+        int y = 6;
+
+        for (
+            size_t i = start;
+            i < start + soDong &&
+            i < ds.size();
+            i++)
+        {
+
+            CauHoi *ch =
+                ds[i];
+
+            gotoXY(5, y++);
+
+            cout
+                << "ID: "
+                << ch->id;
+
+            gotoXY(5, y++);
+
+            cout
+                << "Cau hoi: "
+                << ch->noidung;
+
+            gotoXY(8, y++);
+
+            cout
+                << "A. "
+                << ch->A;
+
+            gotoXY(8, y++);
+
+            cout
+                << "B. "
+                << ch->B;
+
+            gotoXY(8, y++);
+
+            cout
+                << "C. "
+                << ch->C;
+
+            gotoXY(8, y++);
+
+            cout
+                << "D. "
+                << ch->D;
+
+            gotoXY(8, y++);
+
+            setColor(10);
+
+            cout
+                << "Dap an dung: "
+                << ch->dapan;
+
+            setColor(7);
+
+            y += 1;
+        }
+
+        veKhungThongBao(
+            2,
+            24,
+            110,
+            3);
+
+        gotoXY(5, 25);
+
+        cout
+            << "Trang "
+            << trang + 1
+            << "/"
+            << ((ds.size() + soDong - 1) / soDong);
+
+        gotoXY(45, 25);
+
+        cout
+            << "UP/DOWN: Cuon   ESC: Thoat";
+
+        int key =
+            _getch();
+
+        if (key == 27)
+            break;
+
+        if (key == 224)
+        {
+            key = _getch();
+
+            // len
+
+            if (key == 72)
+            {
+                if (trang > 0)
+                    trang--;
+            }
+
+            // xuong
+
+            if (key == 80)
+            {
+                if (
+                    (trang + 1) * soDong < ds.size())
+                    trang++;
+            }
+        }
+    }
 }
+
 void uiDemCauHoi(
     AppContext &app)
 {
+
+    clearScreen();
+
+    veKhungManHinh(
+        15,
+        3,
+        80,
+        10,
+        "DEM CAU HOI");
+
     char maMH[LEN_MAMH];
 
-    cout
-        << "\nNhap ma MH: ";
+    gotoXY(20, 7);
 
-    cin.getline(
-        maMH,
-        LEN_MAMH);
+    cout << "Ma mon hoc : ";
 
-    CauHoi ds[1000];
+    cin.ignore();
+    cin.getline(maMH, LEN_MAMH);
+    cout << app.db.rootCH->data.mamh;
+    int n = demCauHoiTheoMon(
+        app.db.rootCH,
+        maMH);
 
-    int n =
-        layCauHoiTheoMon(
-            app.db.rootCH,
-            maMH,
-            ds,
-            1000);
+    gotoXY(20, 9);
 
-    cout
-        << "\nTong so cau hoi: "
-        << n
-        << "\n";
+    cout << "Tong so cau hoi : "
+         << n;
 
-    system("pause");
+    choNhanPhim(
+        20,
+        11);
 }
+
+//================================================
+// MENU
+//================================================
+
 void menuCauHoi(
     AppContext &app)
 {
-    int chon;
 
-    do
+    const char *ds[] =
+        {
+            "Them cau hoi",
+            "Tim cau hoi",
+            "Xoa cau hoi",
+            "In cau hoi theo mon",
+            "Dem so cau hoi",
+            "Quay lai"};
+
+    while (true)
     {
-        system("cls");
 
-        cout << "=========================\n";
-        cout << "    QUAN LY CAU HOI\n";
-        cout << "=========================\n";
-
-        cout << "1. Them cau hoi\n";
-        cout << "2. Tim cau hoi\n";
-        cout << "3. Xoa cau hoi\n";
-        cout << "4. In cau hoi theo mon\n";
-        cout << "5. Dem so cau hoi theo mon\n";
-        cout << "0. Quay lai\n";
-
-        cout << "\nLua chon: ";
-
-        cin >> chon;
-
-        cin.ignore(
-            1000,
-            '\n');
+        int chon =
+            menuConsole(
+                "QUAN LY CAU HOI",
+                ds,
+                6);
 
         switch (chon)
         {
-        case 1:
+
+        case 0:
             uiThemCauHoi(app);
             break;
 
-        case 2:
+        case 1:
             uiTimCauHoi(app);
             break;
 
-        case 3:
+        case 2:
             uiXoaCauHoi(app);
             break;
 
-        case 4:
+        case 3:
             uiInCauHoiTheoMon(app);
             break;
 
-        case 5:
+        case 4:
             uiDemCauHoi(app);
             break;
 
-        case 0:
-            break;
-
-        default:
-            cout
-                << "\nLua chon khong hop le!\n";
-
-            system("pause");
+        case 5:
+            return;
         }
-
-    } while (chon != 0);
+    }
 }

@@ -1,53 +1,121 @@
 #include "features/Lop/lop.h"
+
 #include <iostream>
-#include <cstring>
+#include <iomanip>
 
 #include "screen/include/menuLop.h"
 
+#include "HamHoTro/hamhotro.h"
+#include "decoration/decoration.h"
+
+#include "../struct/app_context.h"
+
 using namespace std;
+
+//================================================
+// THEM LOP
+//================================================
 
 void uiThemLop(
     AppContext &app)
 {
+
+    clearScreen();
+
+    veKhungManHinh(
+        15,
+        3,
+        70,
+        12,
+        "THEM LOP");
+
     char maLop[LEN_MALOP];
+
     char tenLop[LEN_TENLOP];
 
-    cout << "\n===== THEM LOP =====\n";
+    gotoXY(20, 7);
 
-    cout << "Ma lop: ";
+    cout << "Ma lop  : ";
+
+    gotoXY(32, 7);
+
     cin.getline(
         maLop,
         LEN_MALOP);
 
-    cout << "Ten lop: ";
+    gotoXY(20, 9);
+
+    cout << "Ten lop : ";
+
+    gotoXY(32, 9);
+
     cin.getline(
         tenLop,
         LEN_TENLOP);
 
-    if (themLop(
+    bool kq =
+        themLop(
             app.db.dsLop,
             maLop,
-            tenLop))
+            tenLop);
+
+    veKhungThongBao(
+        15,
+        16,
+        70,
+        4);
+
+    if (kq)
     {
-        saveLop(app.db.dsLop);
-        cout
-            << "\nThem thanh cong!\n";
+
+        saveLop(
+            app.db.dsLop);
+
+        hienThongBao(
+            15,
+            16,
+            "Them lop thanh cong!",
+            true);
     }
     else
     {
-        cout
-            << "\nThem that bai!\n";
+
+        hienThongBao(
+            15,
+            16,
+            "Ma lop da ton tai!",
+            false);
     }
 
-    system("pause");
+    choNhanPhim(
+        15,
+        18);
 }
+
+//================================================
+// TIM LOP
+//================================================
 
 void uiTimLop(
     AppContext &app)
 {
+
+    clearScreen();
+
+    veKhungManHinh(
+        15,
+        3,
+        70,
+        10,
+        "TIM LOP");
+
     char maLop[LEN_MALOP];
 
-    cout << "\nNhap ma lop: ";
+    gotoXY(20, 7);
+
+    cout << "Nhap ma lop : ";
+
+    gotoXY(35, 7);
 
     cin.getline(
         maLop,
@@ -60,126 +128,295 @@ void uiTimLop(
 
     if (lop == nullptr)
     {
-        cout
-            << "\nKhong tim thay!\n";
+
+        veKhungThongBao(
+            15,
+            14,
+            70,
+            4);
+
+        hienThongBao(
+            15,
+            14,
+            "Khong tim thay lop!",
+            false);
+
+        choNhanPhim(
+            15,
+            16);
+
+        return;
     }
-    else
-    {
-        cout
-            << "\nMa lop : "
-            << lop->malop;
 
-        cout
-            << "\nTen lop: "
-            << lop->tenlop;
+    clearScreen();
 
-        cout
-            << "\nSo SV  : "
-            << lop->soSV
-            << "\n";
-    }
+    veKhungManHinh(
+        15,
+        3,
+        70,
+        12,
+        "THONG TIN LOP");
 
-    system("pause");
+    gotoXY(20, 7);
+
+    cout << "Ma lop : "
+         << lop->malop;
+
+    gotoXY(20, 8);
+
+    cout << "Ten lop: "
+         << lop->tenlop;
+
+    gotoXY(20, 9);
+
+    cout << "So SV  : "
+         << lop->soSV;
+
+    veKhungThongBao(
+        15,
+        15,
+        70,
+        4);
+
+    hienThongBao(
+        15,
+        15,
+        "Tim lop thanh cong!",
+        true);
+
+    choNhanPhim(
+        15,
+        17);
 }
+
+//================================================
+// XOA LOP
+//================================================
 
 void uiXoaLop(
     AppContext &app)
 {
+
+    clearScreen();
+
+    veKhungManHinh(
+        15,
+        3,
+        70,
+        10,
+        "XOA LOP");
+
     char maLop[LEN_MALOP];
 
-    cout
-        << "\nNhap ma lop can xoa: ";
+    gotoXY(20, 7);
+
+    cout << "Nhap ma lop : ";
+
+    gotoXY(35, 7);
 
     cin.getline(
         maLop,
         LEN_MALOP);
 
-    if (xoaLop(
+    bool kq =
+        xoaLop(
             app.db.dsLop,
-            maLop))
+            maLop);
+
+    veKhungThongBao(
+        15,
+        14,
+        70,
+        4);
+
+    if (kq)
     {
-        saveLop(app.db.dsLop);
-        saveSinhVien(app.db.dsLop);
-        cout
-            << "\nXoa thanh cong!\n";
+
+        saveLop(
+            app.db.dsLop);
+
+        saveSinhVien(
+            app.db.dsLop);
+
+        hienThongBao(
+            15,
+            14,
+            "Xoa lop thanh cong!",
+            true);
     }
     else
     {
-        cout
-            << "\nKhong tim thay lop!\n";
+
+        hienThongBao(
+            15,
+            14,
+            "Khong tim thay lop!",
+            false);
     }
 
-    system("pause");
+    choNhanPhim(
+        15,
+        16);
 }
+
+//================================================
+// IN DS LOP
+//================================================
+
+#include <conio.h>
 
 void uiInDSLop(
     AppContext &app)
 {
-    cout
-        << "\n===== DANH SACH LOP =====\n";
 
-    inDSLop(
-        app.db.dsLop);
+    int offset = 0;
 
-    cout << "\n";
+    const int soDong = 8;
 
-    system("pause");
+    while (true)
+    {
+
+        clearScreen();
+
+        veKhungManHinh(
+            2,
+            1,
+            100,
+            20,
+            "DANH SACH LOP");
+
+        gotoXY(5, 4);
+
+        cout
+            << left
+            << setw(20)
+            << "MA LOP"
+
+            << setw(50)
+            << "TEN LOP"
+
+            << setw(10)
+            << "SO SV";
+
+        int y = 6;
+
+        for (
+            int i = offset;
+            i < app.db.dsLop.n &&
+            i < offset + soDong;
+            i++)
+        {
+
+            Lop *lop =
+                app.db.dsLop.ds[i];
+
+            if (lop == nullptr)
+                continue;
+
+            gotoXY(
+                5,
+                y++);
+
+            cout
+                << left
+                << setw(20)
+                << lop->malop
+
+                << setw(50)
+                << lop->tenlop
+
+                << setw(10)
+                << lop->soSV;
+        }
+
+        veKhungThongBao(
+            2,
+            22,
+            100,
+            3);
+
+        gotoXY(8, 23);
+
+        cout
+            << "UP/DOWN: Cuon | ESC: Thoat";
+
+        int key =
+            _getch();
+
+        if (key == 27)
+            break;
+
+        if (key == 224)
+        {
+
+            key =
+                _getch();
+
+            // mui ten len
+
+            if (key == 72)
+            {
+                if (offset > 0)
+                    offset--;
+            }
+
+            // mui ten xuong
+
+            if (key == 80)
+            {
+                if (offset + soDong < app.db.dsLop.n)
+                    offset++;
+            }
+        }
+    }
 }
+
+//================================================
+// MENU
+//================================================
 
 void menuLop(
     AppContext &app)
 {
-    int chon;
 
-    do
+    const char *ds[] =
+        {
+            "Them lop",
+            "Tim lop",
+            "Xoa lop",
+            "In danh sach lop",
+            "Quay lai"};
+
+    while (true)
     {
-        system("cls");
 
-        cout << "=====================\n";
-        cout << "     QUAN LY LOP\n";
-        cout << "=====================\n";
-
-        cout << "1. Them lop\n";
-        cout << "2. Tim lop\n";
-        cout << "3. Xoa lop\n";
-        cout << "4. In danh sach lop\n";
-        cout << "0. Quay lai\n";
-
-        cout << "\nLua chon: ";
-
-        cin >> chon;
-
-        cin.ignore(
-            1000,
-            '\n');
+        int chon =
+            menuConsole(
+                "QUAN LY LOP",
+                ds,
+                5);
 
         switch (chon)
         {
-        case 1:
+
+        case 0:
             uiThemLop(app);
             break;
 
-        case 2:
+        case 1:
             uiTimLop(app);
             break;
 
-        case 3:
+        case 2:
             uiXoaLop(app);
             break;
 
-        case 4:
+        case 3:
             uiInDSLop(app);
             break;
 
-        case 0:
-            break;
-
-        default:
-            cout
-                << "\nLua chon khong hop le!\n";
-
-            system("pause");
+        case 4:
+            return;
         }
-
-    } while (chon != 0);
+    }
 }

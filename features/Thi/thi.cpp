@@ -14,23 +14,23 @@
 
 using namespace std;
 
-int layCauHoiTheoMon(
-    NodeBST *root,
-    const char *maMH,
-    CauHoi ds[],
-    int toida)
-{
-    int count = 0;
+// int layCauHoiTheoMon(
+//     NodeBST *root,
+//     const char *maMH,
+//     CauHoi ds[],
+//     int toida)
+// {
+//     int count = 0;
 
-    duyetLayCauHoi(
-        root,
-        maMH,
-        ds,
-        toida,
-        count);
+//     duyetLayCauHoi(
+//         root,
+//         maMH,
+//         ds,
+//         toida,
+//         count);
 
-    return count;
-}
+//     return count;
+// }
 
 void tronCauHoi(
     CauHoi ds[],
@@ -103,11 +103,9 @@ void batDauThi(
     CauHoi ds[1000];
 
     int tong =
-        layCauHoiTheoMon(
+        demCauHoiTheoMon(
             root,
-            maMH,
-            ds,
-            1000);
+            maMH);
 
     if (tong == 0)
     {
@@ -302,18 +300,31 @@ void inChiTietBaiThi(
     }
 }
 
+#include <iomanip>
+
 void inBangDiemLop(
     Lop *lop,
     const char *maMH)
 {
-    if (lop == nullptr)
-        return;
+    cout
+        << left
+        << setw(6)
+        << "STT"
+
+        << setw(15)
+        << "MASV"
+
+        << setw(35)
+        << "HO TEN"
+
+        << setw(10)
+        << "DIEM"
+        << "\n";
 
     cout
-        << "\n==============================\n";
+        << "--------------------------------------------------------------\n";
 
-    cout
-        << "MASV\tHO TEN\t\tDIEM\n";
+    int stt = 1;
 
     SinhVien *sv =
         lop->dsSV;
@@ -321,12 +332,31 @@ void inBangDiemLop(
     while (sv)
     {
         cout
-            << sv->masv
-            << "\t"
-            << sv->ho
-            << " "
-            << sv->ten
-            << "\t";
+            << left
+            << setw(6)
+            << stt++;
+
+        cout
+            << setw(15)
+            << sv->masv;
+
+        char hoTen[100];
+
+        strcpy(
+            hoTen,
+            sv->ho);
+
+        strcat(
+            hoTen,
+            " ");
+
+        strcat(
+            hoTen,
+            sv->ten);
+
+        cout
+            << setw(35)
+            << hoTen;
 
         DiemThi *dt =
             timDiemThi(
@@ -334,17 +364,21 @@ void inBangDiemLop(
                 maMH);
 
         if (dt)
+        {
             cout
+                << setw(10)
                 << dt->diem;
+        }
         else
+        {
             cout
-                << "Chua thi";
+                << setw(10)
+                << "CHUA THI";
+        }
 
-        cout
-            << endl;
+        cout << "\n";
 
-        sv =
-            sv->tiep;
+        sv = sv->tiep;
     }
 }
 
@@ -368,37 +402,37 @@ NodeBST *timCauHoiTheoID(
         id);
 }
 
-void duyetLayCauHoi(
-    NodeBST *root,
-    const char *maMH,
-    CauHoi ds[],
-    int max,
-    int &count)
-{
-    if (root == nullptr ||
-        count >= max)
-        return;
+// void duyetLayCauHoi(
+//     NodeBST *root,
+//     const char *maMH,
+//     CauHoi ds[],
+//     int max,
+//     int &count)
+// {
+//     if (root == nullptr ||
+//         count >= max)
+//         return;
 
-    duyetLayCauHoi(
-        root->trai,
-        maMH,
-        ds,
-        max,
-        count);
+//     duyetLayCauHoi(
+//         root->trai,
+//         maMH,
+//         ds,
+//         max,
+//         count);
 
-    if (root->data.daXoa == 0 &&
-        strcmp(
-            root->data.mamh,
-            maMH) == 0)
-    {
-        ds[count++] =
-            root->data;
-    }
+//     if (root->data.daXoa == 0 &&
+//         strcmp(
+//             root->data.mamh,
+//             maMH) == 0)
+//     {
+//         ds[count++] =
+//             root->data;
+//     }
 
-    duyetLayCauHoi(
-        root->phai,
-        maMH,
-        ds,
-        max,
-        count);
-}
+//     duyetLayCauHoi(
+//         root->phai,
+//         maMH,
+//         ds,
+//         max,
+//         count);
+// }

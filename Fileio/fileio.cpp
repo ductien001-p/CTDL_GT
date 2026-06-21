@@ -258,7 +258,8 @@ void saveNode(NodeBST *root,
         << ch.B << '|'
         << ch.C << '|'
         << ch.D << '|'
-        << ch.dapan
+        << ch.dapan << '|'
+        << ch.daXoa
         << '\n';
 
     saveNode(root->phai, out);
@@ -295,11 +296,21 @@ void loadCauHoi(NodeBST *&root)
         in.getline(ch.C, LEN_LUACHON, '|');
         in.getline(ch.D, LEN_LUACHON, '|');
 
-        in >>
-            ch.dapan;
+        in >> ch.dapan;
         in.ignore(); // bỏ '|'
 
-        in >> ch.daXoa;
+        // Nếu file cũ không có trường daXoa, mặc định là 0
+        ch.daXoa = 0;
+
+        int nextChar = in.peek();
+        if (nextChar != EOF && nextChar != '\n' && nextChar != '\r')
+        {
+            if (!(in >> ch.daXoa))
+            {
+                ch.daXoa = 0;
+                in.clear();
+            }
+        }
 
         in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 

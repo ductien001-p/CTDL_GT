@@ -2,12 +2,12 @@
 #define THI_H
 
 #include "../../struct/struct.h"
-// Lay ngau nhien n cau hoi theo mon
-int layCauHoiTheoMon(
-    NodeBST *root,
-    const char *maMH,
-    CauHoi ds[],
-    int max);
+// // Lay ngau nhien n cau hoi theo mon
+// int layCauHoiTheoMon(
+//     NodeBST *root,
+//     const char *maMH,
+//     CauHoi ds[],
+//     int max);
 // Tron ngau nhien n cau hoi
 void tronCauHoi(
     CauHoi ds[],
@@ -37,10 +37,10 @@ void inBangDiemLop(
 NodeBST *timCauHoiTheoID(
     NodeBST *root,
     int id);
-void duyetLayCauHoi(
-    NodeBST *root,
-    const char *maMH,
-    CauHoi ds[],
-    int max,
-    int &count);
+// void duyetLayCauHoi(
+//     NodeBST *root,
+//     const char *maMH,
+//     CauHoi ds[],
+//     int max,
+//     int &count);
 #endif
