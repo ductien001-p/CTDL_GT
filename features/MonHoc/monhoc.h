@@ -4,26 +4,26 @@
 #include "../../struct/struct.h"
 
 bool themMonHoc(
-    DSMonHoc& ds,
-    const MonHoc& mh);
+    DSMonHoc &ds,
+    const MonHoc &mh);
 
 bool xoaMonHoc(
-    DSMonHoc& ds,
-    const char* maMH);
+    DSMonHoc &ds,
+    const char *maMH);
 
-MonHoc* timMonHoc(
-    DSMonHoc& ds,
-    const char* maMH);
+MonHoc *timMonHoc(
+    DSMonHoc &ds,
+    const char *maMH);
 
 bool suaMonHoc(
-    DSMonHoc& ds,
-    const char* maMH,
-    const MonHoc& moi);
+    DSMonHoc &ds,
+    const char *maMH,
+    const MonHoc &moi);
 
 void inDSMonHoc(
-    const DSMonHoc& ds);
+    const DSMonHoc &ds);
 
 void inMotMonHoc(
-    const MonHoc& mh);
+    const MonHoc &mh);
 
 #endif

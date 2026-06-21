@@ -34,3 +34,23 @@ void saoChepChuoi(char *dich, const char *nguon)
     dich[i] = '\0';
 }
 
+bool chuoiRong(const char *s)
+{
+    return (s == nullptr || s[0] == '\0');
+}
+
+bool chiToanKhoangTrang(const char *s)
+{
+    if (s == nullptr)
+        return true;
+
+    int i = 0;
+    while (s[i] != '\0')
+    {
+        if (s[i] != ' ' && s[i] != '\t')
+            return false;
+        i++;
+    }
+
+    return true;
+}
