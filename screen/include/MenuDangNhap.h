@@ -2,6 +2,6 @@
 #define MENU_DANGNHAP_H
 #include "../struct/app_context.h"
 
-bool manHinhDangNhap(AppContext &app);
+bool manHinhBatDau(AppContext &app);
 
 #endif

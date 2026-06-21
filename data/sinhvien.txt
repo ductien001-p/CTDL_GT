@@ -1,3 +1,1 @@
-# dong: ma_lop|ma_sv|ho|ten|phai(0/1)|mat_khau
-# comment bat dau bang # 
-D24CQCN02_N|N24DCCN173|PHAN|TIEN|0|TIEN1234
+D12|A1|PHAN|LIX|0|TIEN1234

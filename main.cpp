@@ -1,6 +1,8 @@
 #include "struct/app_context.h"
-#include "screen/screen.h"
 #include "screen/include/MenuDangNhap.h"
+#include "screen/include/menuGV.h"
+#include "screen/include/menuQLSV.h"
+#include "screen/include/menuQL_Thi_SV.h"
 #include "features/DangNhap/dangnhap.h"
 #include "Fileio/fileio.h"
 #include <iostream>
@@ -16,22 +18,18 @@ int main()
     while (true)
     {
         bool ok =
-            manHinhDangNhap(app);
+            manHinhBatDau(app);
 
         if (!ok)
             break;
 
         if (app.session.giaovien)
         {
-            // menuGV(app);
-            cout
-                << "\nDang nhap thanh cong!\n";
+            menuGV(app);
         }
         else
         {
-            // menuSV(app);
-            cout
-                << "\nDang nhap thanh cong!\n";
+            menuQuanLyThiSinhVien(app);
         }
 
         dangXuat(app);

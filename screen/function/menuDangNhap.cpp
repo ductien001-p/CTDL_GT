@@ -1,69 +1,139 @@
 #include <iostream>
 
+#include "decoration/decoration.h"
+#include "../struct/app_context.h"
+
+#include "HamHoTro/hamhotro.h"
 #include "screen/include/MenuDangNhap.h"
+
 #include "../../features/DangNhap/dangnhap.h"
+#include "Validator/input_validate.h"
 
 using namespace std;
 
 bool manHinhDangNhap(
     AppContext &app)
 {
-    int chon;
 
     while (true)
     {
-        system("cls");
 
-        cout << "\n";
-        cout << "========================================\n";
-        cout << "       HE THONG THI TRAC NGHIEM\n";
-        cout << "========================================\n";
+        clearScreen();
 
-        cout << "\n";
-        cout << "1. Dang nhap\n";
-        cout << "0. Thoat\n";
+        // khung chính
 
-        cout << "\nLua chon: ";
-        cin >> chon;
+        veKhungManHinh(
+            15,
+            3,
+            70,
+            14,
+            "HE THONG THI TRAC NGHIEM");
 
-        cin.ignore(
-            1000,
-            '\n');
+        gotoXY(
+            20,
+            8);
+
+        cout << "Tai khoan : ";
+
+        gotoXY(
+            20,
+            10);
+
+        cout << "Mat khau  : ";
+
+        char username[LEN_MASV];
+        char password[LEN_PASS];
+
+        gotoXY(
+            33,
+            8);
+
+        nhap(
+            username,
+            MASINHVIEN);
+
+        gotoXY(
+            33,
+            10);
+
+        nhap(
+            password,
+            MATKHAU);
+
+        // khung thong bao
+
+        veKhungThongBao(
+            15,
+            12,
+            70,
+            4);
+
+        if (
+            kiemTraDangNhap(
+                app,
+                username,
+                password))
+        {
+
+            hienThongBao(
+                15,
+                12,
+                "Dang nhap thanh cong!",
+                true);
+
+            choNhanPhim(
+                15,
+                14);
+
+            return true;
+        }
+
+        hienThongBao(
+            15,
+            12,
+            "Sai tai khoan hoac mat khau!",
+            false);
+
+        choNhanPhim(
+            15,
+            14);
+    }
+}
+
+bool manHinhBatDau(
+    AppContext &app)
+{
+
+    const char *ds[] =
+        {
+            "Dang nhap",
+            "Thoat"};
+
+    while (true)
+    {
+
+        int chon =
+            menuConsole(
+                "HE THONG THI TRAC NGHIEM",
+                ds,
+                2);
 
         switch (chon)
         {
-        case 1:
-        {
-            if (dangNhap(app))
+
+        case 0:
+
+            if (
+                manHinhDangNhap(app))
             {
-                cout
-                    << "\nDang nhap thanh cong!\n";
-
-                system("pause");
-
                 return true;
             }
 
-            cout
-                << "\nSai tai khoan hoac mat khau!\n";
-
-            system("pause");
-
             break;
-        }
 
-        case 0:
-        {
+        case 1:
+
             return false;
-        }
-
-        default:
-        {
-            cout
-                << "\nLua chon khong hop le!\n";
-
-            system("pause");
-        }
         }
     }
 }

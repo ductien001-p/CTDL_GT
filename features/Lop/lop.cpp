@@ -3,6 +3,7 @@
 
 #include "lop.h"
 #include "../../HamHoTro/hamhotro.h"
+#include "../../Fileio/fileio.h"
 
 using namespace std;
 
@@ -53,7 +54,6 @@ bool themLop(
 
     ds.ds[ds.n] = lop;
     ds.n++;
-
     return true;
 }
 bool xoaLop(
@@ -64,7 +64,7 @@ bool xoaLop(
 
     for (int i = 0; i < ds.n; i++)
     {
-        if (soSanhChuoi(ds.ds[i]->malop, maLop) == 0)
+        if (soSanhChuoi(ds.ds[i]->malop, maLop))
         {
             viTri = i;
             break;

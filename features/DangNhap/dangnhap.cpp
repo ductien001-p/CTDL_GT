@@ -4,36 +4,24 @@
 #include "../../struct/app_context.h"
 #include "../SinhVien/sinhvien.h"
 #include "../../HamHoTro/hamhotro.h"
+#include "Validator/input_validate.h"
 
 using namespace std;
 
-bool dangNhap(AppContext &app)
+bool kiemTraDangNhap(
+    AppContext &app,
+    const char *username,
+    const char *password)
 {
-    char username[LEN_MASV];
-    char password[LEN_PASS];
-
-    cout << "\n====================================\n";
-    cout << "      HE THONG THI TRAC NGHIEM\n";
-    cout << "====================================\n";
-
-    cout << "Tai khoan: ";
-    cin.getline(username, LEN_MASV);
-
-    cout << "Mat khau : ";
-    cin.getline(password, LEN_PASS);
-
-    // Tai khoan giao vien
-
-    if (soSanhChuoi(username, "GV") == 0 &&
-        soSanhChuoi(password, "GV") == 0)
+    if (soSanhChuoi(username, "GV") &&
+        soSanhChuoi(password, "GV"))
     {
         app.session.username = "GV";
         app.session.giaovien = true;
+        app.session.svHientai = nullptr;
 
         return true;
     }
-
-    // Tai khoan sinh vien
 
     SinhVien *sv =
         timSinhVien(
@@ -43,20 +31,22 @@ bool dangNhap(AppContext &app)
     if (sv == nullptr)
         return false;
 
-    if (soSanhChuoi(
+    if (!soSanhChuoi(
             sv->password,
-            password) != 0)
+            password))
     {
         return false;
     }
 
     app.session.username = sv->masv;
     app.session.giaovien = false;
+    app.session.svHientai = sv;
 
     return true;
 }
 
-void dangXuat(AppContext &app)
+void dangXuat(
+    AppContext &app)
 {
     app.session.username = "";
     app.session.giaovien = false;

@@ -3,6 +3,6 @@
 
 struct AppContext;
 
-bool dangNhap(AppContext &app);
+bool kiemTraDangNhap(AppContext &app, const char *username, const char *password);
 void dangXuat(AppContext &app);
 #endif

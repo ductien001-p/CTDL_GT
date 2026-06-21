@@ -72,17 +72,19 @@ void loadLop(DSLop &ds)
 
     ds.n = 0;
 
-    while (!in.eof())
+    while (true)
     {
         Lop *l = new Lop;
 
-        in.getline(l->malop, LEN_MALOP, '|');
-        if (in.eof())
+        if (!in.getline(l->malop, LEN_MALOP, '|'))
+        {
+            delete l;
             break;
+        }
 
         in.getline(l->tenlop, LEN_TENLOP, '|');
         in >> l->soSV;
-        in.ignore();
+        in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
         l->dsSV = nullptr;
 
@@ -256,7 +258,8 @@ void saveNode(NodeBST *root,
         << ch.B << '|'
         << ch.C << '|'
         << ch.D << '|'
-        << ch.dapan
+        << ch.dapan << '|'
+        << ch.daXoa
         << '\n';
 
     saveNode(root->phai, out);
@@ -293,11 +296,21 @@ void loadCauHoi(NodeBST *&root)
         in.getline(ch.C, LEN_LUACHON, '|');
         in.getline(ch.D, LEN_LUACHON, '|');
 
-        in >>
-            ch.dapan;
+        in >> ch.dapan;
         in.ignore(); // bỏ '|'
 
-        in >> ch.daXoa;
+        // Nếu file cũ không có trường daXoa, mặc định là 0
+        ch.daXoa = 0;
+
+        int nextChar = in.peek();
+        if (nextChar != EOF && nextChar != '\n' && nextChar != '\r')
+        {
+            if (!(in >> ch.daXoa))
+            {
+                ch.daXoa = 0;
+                in.clear();
+            }
+        }
 
         in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
@@ -306,16 +319,180 @@ void loadCauHoi(NodeBST *&root)
 
     in.close();
 }
+
+void loadChiTietBaiThi(
+    DSLop &dsLop)
+{
+    std::ifstream in(
+        "data/chitietthi.txt");
+
+    if (!in)
+        return;
+
+    std::string line;
+
+    while (std::getline(
+        in,
+        line))
+    {
+        if (line.empty())
+            continue;
+
+        std::stringstream ss(
+            line);
+
+        std::string masv;
+        std::string mamh;
+        std::string sid;
+        std::string tl;
+        std::string dungSai;
+
+        std::getline(
+            ss,
+            masv,
+            '|');
+
+        std::getline(
+            ss,
+            mamh,
+            '|');
+
+        std::getline(
+            ss,
+            sid,
+            '|');
+
+        std::getline(
+            ss,
+            tl,
+            '|');
+
+        std::getline(
+            ss,
+            dungSai,
+            '|');
+
+        DiemThi *dt =
+            timDiemThiTheoMaSV(
+                dsLop,
+                masv.c_str(),
+                mamh.c_str());
+
+        if (dt == nullptr)
+            continue;
+
+        KetQuaBaiThi *kq =
+            new KetQuaBaiThi;
+
+        kq->idCauHoi =
+            atoi(
+                sid.c_str());
+
+        kq->tlSinhVien =
+            tl.empty()
+                ? '\0'
+                : tl[0];
+
+        kq->tlDungSai =
+            atoi(
+                dungSai.c_str());
+
+        kq->tiep =
+            nullptr;
+
+        if (dt->dsKetQua ==
+            nullptr)
+        {
+            dt->dsKetQua =
+                kq;
+        }
+        else
+        {
+            KetQuaBaiThi *p =
+                dt->dsKetQua;
+
+            while (p->tiep)
+                p = p->tiep;
+
+            p->tiep = kq;
+        }
+    }
+
+    in.close();
+}
+
+#include <fstream>
+
+void saveChiTietBaiThi(
+    const DSLop &dsLop)
+{
+    std::ofstream out(
+        "data/chitietthi.txt");
+
+    if (!out)
+        return;
+
+    for (int i = 0;
+         i < dsLop.n;
+         i++)
+    {
+        Lop *lop =
+            dsLop.ds[i];
+
+        SinhVien *sv =
+            lop->dsSV;
+
+        while (sv)
+        {
+            DiemThi *dt =
+                sv->dsDiem;
+
+            while (dt)
+            {
+                KetQuaBaiThi *kq =
+                    dt->dsKetQua;
+
+                while (kq)
+                {
+                    out
+                        << sv->masv
+                        << '|'
+                        << dt->mamh
+                        << '|'
+                        << kq->idCauHoi
+                        << '|'
+                        << kq->tlSinhVien
+                        << '|'
+                        << (int)kq->tlDungSai
+                        << '\n';
+
+                    kq =
+                        kq->tiep;
+                }
+
+                dt =
+                    dt->tiep;
+            }
+
+            sv =
+                sv->tiep;
+        }
+    }
+
+    out.close();
+}
+
 void loadDatabase(AppContext &app)
 {
-    cout << "Loading database...\n";
     loadLop(app.db.dsLop);
-    cout << "Loading mon hoc...\n";
+
     loadMonHoc(app.db.dsMH);
 
     loadSinhVien(app.db.dsLop);
 
     loadDiemThi(app.db.dsLop);
+
+    loadChiTietBaiThi(app.db.dsLop);
 
     loadCauHoi(app.db.rootCH);
 }
@@ -328,6 +505,8 @@ void saveDatabase(const AppContext &app)
     saveSinhVien(app.db.dsLop);
 
     saveDiemThi(app.db.dsLop);
+
+    saveChiTietBaiThi(app.db.dsLop);
 
     saveCauHoi(app.db.rootCH);
 }

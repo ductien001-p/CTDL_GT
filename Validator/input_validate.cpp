@@ -3,6 +3,7 @@
 #include <string>
 #include <conio.h>
 #include <iostream>
+#include "../../HamHoTro/hamhotro.h"
 using namespace std;
 
 bool laSo(char c)
@@ -25,33 +26,38 @@ bool laChu(char c)
     return laChuThuong(c) || laChuHoa(c);
 }
 
-bool laChuSo(char c)
+bool laChuHoaVaSo(char c)
 {
-    return laChu(c) || laSo(c);
+    return laChuHoa(c) || laSo(c);
 }
 
 bool hopLe(char c, InputType type)
 {
     switch (type)
     {
-    case NUMBER:
+    case SO:
         return laSo(c);
 
-    case LETTER:
-        return laChu(c);
+    case CHUTHUONG:
+        return laChuThuong(c);
 
-    case ALPHANUMERIC:
-        return laChuSo(c);
+    case MASINHVIEN:
+        return laChuHoaVaSo(c);
 
-    case NAME:
+    case HOTEN:
         return laChu(c) || c == ' ';
+
+    case MATKHAU:
+        return c != ' ';
+    case DAPAN:
+        return c == 'A' || c == 'B' || c == 'C' || c == 'D';
 
     default:
         return false;
     }
 }
 
-string nhap(InputType type)
+void nhap(char ketqua[], InputType type)
 {
     string s;
     char c;
@@ -81,5 +87,5 @@ string nhap(InputType type)
     }
 
     cout << endl;
-    return s;
+    saoChepChuoi(ketqua, s.c_str());
 }
