@@ -545,9 +545,9 @@ void uiDemCauHoi(
 
     cout << "Ma mon hoc : ";
 
-    cin.ignore();
+    gotoXY(33, 7);
     cin.getline(maMH, LEN_MAMH);
-    cout << app.db.rootCH->data.mamh;
+    cout << maMH << endl;
     int n = demCauHoiTheoMon(
         app.db.rootCH,
         maMH);

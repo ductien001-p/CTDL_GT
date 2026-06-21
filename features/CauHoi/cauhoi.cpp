@@ -266,7 +266,6 @@ int demCauHoiTheoMon(
         return 0;
 
     int dem = 0;
-
     if (strcmp(
             root->data.mamh,
             maMH) == 0 &&
