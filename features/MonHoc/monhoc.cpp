@@ -19,6 +19,19 @@ MonHoc taoMonHoc(
 {
     MonHoc mh;
 
+    // validator
+    if (maMH == nullptr || tenMH == nullptr)
+        return mh;
+
+    if (chuoiRong(maMH) || chuoiRong(tenMH))
+        return mh;
+
+    if (chiToanKhoangTrang(maMH) || chiToanKhoangTrang(tenMH))
+        return mh;
+
+    if (soTC <= 0)
+        return mh;
+
     saoChepChuoi(
         mh.mamh,
         maMH);
@@ -45,7 +58,7 @@ MonHoc *timMonHoc(
 
         if (soSanhChuoi(
                 ds.ds[i].mamh,
-            maMH) == 0)
+                maMH) == 0)
         {
             return &ds.ds[i];
         }
