@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <iostream>
 #include "../struct/app_context.h"
+#include "../../Validator/input_validate.h"
 #include "screen/include/MenuDangNhap.h"
 using namespace std;
 
@@ -12,9 +13,8 @@ void uiThemSinhVien(
     char maLop[LEN_MALOP];
 
     cout << "\nNhap ma lop: ";
-    cin.getline(
-        maLop,
-        LEN_MALOP);
+
+    nhap(maLop, MALOP);
 
     Lop *lop =
         timLop(
@@ -38,19 +38,18 @@ void uiThemSinhVien(
     int phai;
 
     cout << "Ma SV: ";
-    cin.getline(
-        masv,
-        LEN_MASV);
 
-    cout << "Ho: ";
-    cin.getline(
-        ho,
-        LEN_HO);
+    nhap(masv, MASINHVIEN);
 
-    cout << "Ten: ";
-    cin.getline(
-        ten,
-        LEN_TEN);
+    cout
+        << "Ho: ";
+
+    nhap(ho, HOTEN);
+
+    cout
+        << "Ten: ";
+
+    nhap(ten, HOTEN);
 
     cout << "Phai (0-Nam,1-Nu): ";
     cin >> phai;
@@ -58,9 +57,8 @@ void uiThemSinhVien(
     cin.ignore();
 
     cout << "Password: ";
-    cin.getline(
-        pass,
-        LEN_PASS);
+
+    nhap(pass, MATKHAU);
 
     SinhVien *sv =
         taoSinhVien(

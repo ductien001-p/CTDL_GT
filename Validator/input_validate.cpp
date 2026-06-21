@@ -3,6 +3,9 @@
 #include <string>
 #include <conio.h>
 #include <iostream>
+#include <atomic>
+#include <thread>
+#include <chrono>
 #include "../../HamHoTro/hamhotro.h"
 using namespace std;
 
@@ -31,6 +34,11 @@ bool laChuHoaVaSo(char c)
     return laChuHoa(c) || laSo(c);
 }
 
+bool laKiTuNgang(char c)
+{
+    return c == '-';
+}
+
 bool hopLe(char c, InputType type)
 {
     switch (type)
@@ -44,13 +52,25 @@ bool hopLe(char c, InputType type)
     case MASINHVIEN:
         return laChuHoaVaSo(c);
 
+    case MALOP:
+        return laChuThuong(c) || laSo(c) || laChu(c) || laKiTuNgang(c);
+
     case HOTEN:
         return laChu(c) || c == ' ';
+
+    case TENLOP:
+        return laChu(c) || c == ' ' || laSo(c);
 
     case MATKHAU:
         return c != ' ';
     case DAPAN:
         return c == 'A' || c == 'B' || c == 'C' || c == 'D';
+    case MAMONHOC:
+        return laChuHoaVaSo(c);
+    case TENMONHOC:
+        return laChu(c) || c == ' ' || laSo(c);
+    case SOTINCHI:
+        return laSo(c);
 
     default:
         return false;
@@ -64,10 +84,19 @@ void nhap(char ketqua[], InputType type)
 
     while (true)
     {
-        c = _getch();
 
-        if (c == 13) // Enter
-            break;
+        c = _getch();
+        if (c == 13)
+        {
+            if (!s.empty())
+            {
+                break;
+            }
+            else
+            {
+                continue;
+            }
+        }
 
         if (c == 8) // Backspace
         {
@@ -81,6 +110,12 @@ void nhap(char ketqua[], InputType type)
 
         if (hopLe(c, type))
         {
+            // (TÃ¹y chá»n) Cháº·n nháº­p nhiá»u chá»¯ náº¿u lÃ  DAPAN
+            if (type == DAPAN && s.length() >= 1)
+            {
+                continue;
+            }
+
             s += c;
             cout << c;
         }

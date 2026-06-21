@@ -4,6 +4,7 @@
 #include <iostream>
 #include "../struct/app_context.h"
 #include "screen/include/MenuDangNhap.h"
+#include "../../Validator/input_validate.h"
 using namespace std;
 
 void uiThemMonHoc(
@@ -14,14 +15,10 @@ void uiThemMonHoc(
     cout << "\n===== THEM MON HOC =====\n";
 
     cout << "Ma MH: ";
-    cin.getline(
-        mh.mamh,
-        LEN_MAMH);
+    nhap(mh.mamh, MAMONHOC);
 
     cout << "Ten MH: ";
-    cin.getline(
-        mh.tenmh,
-        LEN_TENMH);
+    nhap(mh.tenmh, TENMONHOC);
 
     cout << "So tin chi: ";
     cin >> mh.soTinChi;

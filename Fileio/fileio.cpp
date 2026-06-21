@@ -258,7 +258,8 @@ void saveNode(NodeBST *root,
         << ch.B << '|'
         << ch.C << '|'
         << ch.D << '|'
-        << ch.dapan
+        << ch.dapan << '|'
+        << ch.daXoa
         << '\n';
 
     saveNode(root->phai, out);

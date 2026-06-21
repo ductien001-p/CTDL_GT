@@ -29,3 +29,54 @@ void saoChepChuoi(char *dich, const char *nguon)
 
     dich[i] = '\0';
 }
+
+void xoaKhoangTrangThua(char str[])
+{
+    int i = 0, j = 0;
+
+    // Bỏ khoảng trắng đầu chuỗi
+    while (str[i] == ' ')
+    {
+        i++;
+    }
+
+    bool truocDoLaKhoangTrang = false;
+
+    while (str[i] != '\0')
+    {
+        if (str[i] != ' ')
+        {
+            str[j++] = str[i];
+            truocDoLaKhoangTrang = false;
+        }
+        else
+        {
+            // Chỉ giữ lại 1 khoảng trắng giữa các từ
+            if (!truocDoLaKhoangTrang)
+            {
+                str[j++] = ' ';
+                truocDoLaKhoangTrang = true;
+            }
+        }
+
+        i++;
+    }
+
+    // Xóa khoảng trắng cuối nếu có
+    if (j > 0 && str[j - 1] == ' ')
+    {
+        j--;
+    }
+
+    str[j] = '\0';
+}
+
+bool coKhoangTrangGiua(const char str[])
+{
+    for (int i = 0; str[i] != '\0'; i++)
+    {
+        if (str[i] == ' ')
+            return true;
+    }
+    return false;
+}

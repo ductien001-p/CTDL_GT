@@ -1,7 +1,8 @@
 #include "features/Lop/lop.h"
 #include <iostream>
 #include <cstring>
-
+#include "../../HamHoTro/hamhotro.h"
+#include "../../Validator/input_validate.h"
 #include "screen/include/menuLop.h"
 
 using namespace std;
@@ -15,14 +16,11 @@ void uiThemLop(
     cout << "\n===== THEM LOP =====\n";
 
     cout << "Ma lop: ";
-    cin.getline(
-        maLop,
-        LEN_MALOP);
+    nhap(maLop, MALOP);
 
     cout << "Ten lop: ";
-    cin.getline(
-        tenLop,
-        LEN_TENLOP);
+
+    nhap(tenLop, TENLOP);
 
     if (themLop(
             app.db.dsLop,
@@ -49,9 +47,7 @@ void uiTimLop(
 
     cout << "\nNhap ma lop: ";
 
-    cin.getline(
-        maLop,
-        LEN_MALOP);
+    nhap(maLop, MALOP);
 
     Lop *lop =
         timLop(
@@ -90,9 +86,7 @@ void uiXoaLop(
     cout
         << "\nNhap ma lop can xoa: ";
 
-    cin.getline(
-        maLop,
-        LEN_MALOP);
+    nhap(maLop, MALOP);
 
     if (xoaLop(
             app.db.dsLop,

@@ -109,6 +109,7 @@ typedef struct NodeBST
     CauHoi data;
     struct NodeBST *trai;
     struct NodeBST *phai;
+    int height;
 } NodeBST;
 
 typedef struct

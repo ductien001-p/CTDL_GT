@@ -16,6 +16,11 @@ SinhVien *taoSinhVien(
 {
     SinhVien *sv = new SinhVien;
 
+    if (masv[0] == '\0' || ho[0] == '\0' || ten[0] == '\0' || (phai < 0) || phai > 1 || pass[0] == '\0')
+    {
+        return nullptr;
+    }
+
     saoChepChuoi(sv->masv, masv);
     saoChepChuoi(sv->ho, ho);
     saoChepChuoi(sv->ten, ten);
@@ -55,14 +60,20 @@ bool themSinhVien(
     SinhVien *sv)
 {
     if (lop == nullptr || sv == nullptr)
+    {
+        cout << "nullptr";
         return false;
+    }
 
     SinhVien *p = lop->dsSV;
 
     while (p)
     {
         if (soSanhChuoi(p->masv, sv->masv))
+        {
+            cout << "trung masv";
             return false;
+        }
 
         p = p->tiep;
     }

@@ -37,12 +37,25 @@ bool themLop(
     DSLop &ds,
     const char maLop[],
     const char tenLop[])
+
 {
-    if (ds.n >= MAX_LOP)
+    if (maLop[0] == '\0' || tenLop[0] == '\0')
+    {
+        cout << "Ban chua nhap MA LOP hoac TEN LOP!" << endl;
         return false;
+    }
+
+    if (ds.n >= MAX_LOP)
+    {
+        cout << "Danh sach lop da day" << endl;
+        return false;
+    }
 
     if (timLop(ds, maLop) != nullptr)
+    {
+        cout << "Lop da ton tai!" << endl;
         return false;
+    }
 
     Lop *lop = new Lop;
 
